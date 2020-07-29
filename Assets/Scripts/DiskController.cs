@@ -17,6 +17,18 @@ public class DiskController : MonoBehaviour
         rb.freezeRotation = true;
     }
 
+    private void FixedUpdate()
+    {
+        //Issue: disks would bounce even if disks have physics material with 0 bounciness
+        //Fixed: if velocity is positive (meaning disks are bouncing/moving upward), set velocity to zero
+        Vector3 currentVelocity = rb.velocity;
+        if (currentVelocity.y <= 0f)
+            return;
+
+        currentVelocity.y = 0f;
+        rb.velocity = currentVelocity;
+    }
+
     #region Drag and Drop functions
     private void OnMouseDown()
     {
