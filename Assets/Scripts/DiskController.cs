@@ -11,6 +11,9 @@ public class DiskController : MonoBehaviour
 
     private void Start()
     {
+        //freeze z position
+        rb.constraints = RigidbodyConstraints.FreezePositionZ;
+        //freeze all rotations
         rb.freezeRotation = true;
     }
 
