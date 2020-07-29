@@ -21,6 +21,7 @@ public class DiskController : MonoBehaviour
     {
         //Issue: disks would bounce even if disks have physics material with 0 bounciness
         //Fixed: if velocity is positive (meaning disks are bouncing/moving upward), set velocity to zero
+        //refernce: https://answers.unity.com/questions/217639/physics-objects-passing-through-each-otherbouncing.html
         Vector3 currentVelocity = rb.velocity;
         if (currentVelocity.y <= 0f)
             return;
@@ -30,6 +31,7 @@ public class DiskController : MonoBehaviour
     }
 
     #region Drag and Drop functions
+    //reference for drag and drop: https://www.youtube.com/watch?v=0yHBDZHLRbQ
     private void OnMouseDown()
     {
         if (CanDragDisk())
@@ -40,12 +42,21 @@ public class DiskController : MonoBehaviour
     }
     private void OnMouseDrag()
     {
-        transform.position = GetMouseWorldPos() + mouseOffset;
+        //z axis is locked
+        transform.position = new Vector3(
+            GetMouseWorldPos().x + mouseOffset.x,
+            GetMouseWorldPos().y + mouseOffset.y,
+            transform.position.z
+        );
     }
     #endregion
 
+    private void OnTriggerEnter(Collider other)
+    {
+        //print(other.gameObject.name);
+    }
+
     #region Helper Functions
-    //reference for drag and drop: https://www.youtube.com/watch?v=0yHBDZHLRbQ
     private bool CanDragDisk()
     {
         //TODO: check if this disk is the topmost disk

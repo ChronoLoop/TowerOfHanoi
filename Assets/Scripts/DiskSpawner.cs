@@ -39,6 +39,7 @@ public class DiskSpawner : MonoBehaviour
                 newDisk.transform.localScale.y,
                 newZScale
             );
+            newDisk.name = "Disk " + i;
 
             //set the offsets
             xScaleOffset = newXScale * 0.50f;
