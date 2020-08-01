@@ -39,6 +39,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2633559684234255930}
     m_Modifications:
+    - target: {fileID: 4184469319745009610, guid: 02064c9f975ba7940813278be7000e2c,
+        type: 3}
+      propertyPath: m_Name
+      value: Rod0
+      objectReference: {fileID: 0}
     - target: {fileID: 4829929850238530777, guid: 02064c9f975ba7940813278be7000e2c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -94,10 +99,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5096729670735786571, guid: 02064c9f975ba7940813278be7000e2c,
+        type: 3}
+      propertyPath: m_Name
+      value: Rod1
+      objectReference: {fileID: 0}
     - target: {fileID: 6679400922405069144, guid: 02064c9f975ba7940813278be7000e2c,
         type: 3}
       propertyPath: m_Name
       value: Poles
+      objectReference: {fileID: 0}
+    - target: {fileID: 8502048279175487200, guid: 02064c9f975ba7940813278be7000e2c,
+        type: 3}
+      propertyPath: m_Name
+      value: Rod2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 02064c9f975ba7940813278be7000e2c, type: 3}

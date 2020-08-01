@@ -27,8 +27,8 @@ Transform:
   m_LocalPosition: {x: -13.602099, y: 4.312261, z: -4.43814}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 8539719888901033738}
   - {fileID: 732448409218534027}
+  - {fileID: 8539719888901033738}
   - {fileID: 5027497687966507937}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -78,7 +78,7 @@ PrefabInstance:
     - target: {fileID: 791324606620194864, guid: d44de7cdde041eb41b447eb9d1abb018,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 791324606620194864, guid: d44de7cdde041eb41b447eb9d1abb018,
         type: 3}
@@ -228,7 +228,7 @@ PrefabInstance:
     - target: {fileID: 791324606620194864, guid: d44de7cdde041eb41b447eb9d1abb018,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 791324606620194864, guid: d44de7cdde041eb41b447eb9d1abb018,
         type: 3}

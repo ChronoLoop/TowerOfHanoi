@@ -5,16 +5,19 @@ public class DiskController : MonoBehaviour
     public int size;
     public Color color;
     public Rigidbody rb;
+
     //mouse data
     private Vector3 mouseOffset;
     private float mouseZCoord;
-
+    private Vector3 diskPositionBeforeMouseClick;
+    bool isOnPole;
     private void Start()
     {
         //freeze z position
         rb.constraints = RigidbodyConstraints.FreezePositionZ;
         //freeze all rotations
         rb.freezeRotation = true;
+        isOnPole = false;
     }
 
     private void FixedUpdate()
@@ -28,7 +31,42 @@ public class DiskController : MonoBehaviour
 
         currentVelocity.y = 0f;
         rb.velocity = currentVelocity;
+        if (isOnPole && rb.IsSleeping())
+        {
+            diskPositionBeforeMouseClick = transform.position;
+        }
     }
+
+    #region Trigger
+    private void OnTriggerEnter(Collider other)
+    {
+        if (isPole(other.gameObject))
+        {
+            isOnPole = true;
+        }
+        else
+        {
+            isOnPole = false;
+        }
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (isPole(other.gameObject))
+        {
+            isOnPole = true;
+        }
+        else
+        {
+            isOnPole = false;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        isOnPole = false;
+
+    }
+    #endregion
+
 
     #region Drag and Drop functions
     //reference for drag and drop: https://www.youtube.com/watch?v=0yHBDZHLRbQ
@@ -38,6 +76,7 @@ public class DiskController : MonoBehaviour
         {
             mouseZCoord = Camera.main.WorldToScreenPoint(transform.position).z;
             mouseOffset = transform.position - GetMouseWorldPos();
+            diskPositionBeforeMouseClick = transform.position;
         }
     }
     private void OnMouseDrag()
@@ -49,12 +88,20 @@ public class DiskController : MonoBehaviour
             transform.position.z
         );
     }
-    #endregion
-
-    private void OnTriggerEnter(Collider other)
+    private void OnMouseUp()
     {
-        //print(other.gameObject.name);
+        //if disk is not on pole, reset the disks position to diskPositionBeforeMouseClick
+        if (isOnPole)
+        {
+
+        }
+        else
+        {
+            isOnPole = false;
+            transform.position = diskPositionBeforeMouseClick;
+        }
     }
+    #endregion
 
     #region Helper Functions
     private bool CanDragDisk()
@@ -70,6 +117,11 @@ public class DiskController : MonoBehaviour
         //z coordinate of game
         mousePoint.z = mouseZCoord;
         return Camera.main.ScreenToWorldPoint(mousePoint);
+    }
+    private bool isPole(GameObject obj)
+    {
+        //if obj is polecontroller return true else return false
+        return obj.GetComponent<RodController>() != null;
     }
     #endregion
 }

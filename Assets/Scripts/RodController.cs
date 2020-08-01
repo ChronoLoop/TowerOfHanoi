@@ -3,15 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoleController : MonoBehaviour
+public class RodController : MonoBehaviour
 {
-    Stack<DiskController> _disks = new Stack<DiskController>();
+    Stack<DiskController> disks = new Stack<DiskController>();
     private void OnTriggerEnter(Collider other)
     {
         if (IsADisk(other.gameObject))
         {
             GameObject disk = other.gameObject;
-
             disk.transform.position = new Vector3(
                 transform.position.x,
                 disk.transform.position.y,
@@ -24,7 +23,6 @@ public class PoleController : MonoBehaviour
         if (IsADisk(other.gameObject))
         {
             GameObject disk = other.gameObject;
-
             disk.transform.position = new Vector3(
                 transform.position.x,
                 disk.transform.position.y,
@@ -32,8 +30,14 @@ public class PoleController : MonoBehaviour
             );
         }
     }
+    #region helper functions
     private bool IsADisk(GameObject obj)
     {
         return obj.GetComponent<DiskController>() != null;
     }
+    public int getDiskCount()
+    {
+        return disks.Count;
+    }
+    #endregion
 }

@@ -2,16 +2,11 @@ using UnityEngine;
 
 public class DiskSpawner : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject diskPrefab;
+    public GameObject diskPrefab;
 
-    private void Awake()
-    {
-        SpawnDiskStack(3);
-    }
 
     //function will be stacking the disks downward in the y position
-    private void SpawnDiskStack(int numberOfDisks)
+    public void InitializeDiskStack(int numberOfDisks)
     {
         //x and z scale
         float xScaleOffset = 0.0f;
@@ -42,13 +37,21 @@ public class DiskSpawner : MonoBehaviour
             newDisk.name = "Disk " + i;
 
             //set the offsets
-            xScaleOffset = newXScale * 0.50f;
-            zScaleOffset = newZScale * 0.50f;
+            xScaleOffset = newXScale * 0.4f + xScaleOffset * 0.5f;
+            zScaleOffset = newZScale * 0.4f + zScaleOffset * 0.5f;
             yPositionOffset = yPositionOffset - 2 * diskPrefab.transform.localScale.y;
 
             //set parent of new disk to this spawner object and disk to a random color
             newDisk.transform.parent = transform;
             newDisk.GetComponent<Renderer>().material.color = GetRandomColor();
+        }
+    }
+
+    public void DestroyDisks()
+    {
+        foreach (Transform child in transform)
+        {
+            GameObject.Destroy(child.gameObject);
         }
     }
     private Color GetRandomColor()
