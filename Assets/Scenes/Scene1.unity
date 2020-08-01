@@ -288,8 +288,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   diskSpawner: {fileID: 78776993}
-  middlePole: {fileID: 1673657781}
-  lastPole: {fileID: 1433776774}
+  middleRod: {fileID: 1673657781}
+  lastRod: {fileID: 1433776774}
 --- !u!4 &809385889
 Transform:
   m_ObjectHideFlags: 0

@@ -5,11 +5,13 @@ public class DiskController : MonoBehaviour
     public int size;
     public Color color;
     public Rigidbody rb;
+    public RodController currentRod;
     //mouse data
     private Vector3 mouseOffset;
     private float mouseZCoord;
     private Vector3 diskPositionBeforeMouseClick;
-    bool isOnRod;
+    private bool isOnRod;
+    private bool isBeingDragged;
     private void Start()
     {
         //freeze z position
@@ -17,6 +19,7 @@ public class DiskController : MonoBehaviour
         //freeze all rotations
         rb.freezeRotation = true;
         isOnRod = false;
+        isBeingDragged = false;
     }
 
     private void FixedUpdate()
@@ -61,16 +64,20 @@ public class DiskController : MonoBehaviour
             mouseZCoord = Camera.main.WorldToScreenPoint(transform.position).z;
             mouseOffset = transform.position - GetMouseWorldPos();
             diskPositionBeforeMouseClick = transform.position;
+            isBeingDragged = true;
         }
     }
     private void OnMouseDrag()
     {
-        //z axis is locked
-        transform.position = new Vector3(
-            GetMouseWorldPos().x + mouseOffset.x,
-            GetMouseWorldPos().y + mouseOffset.y,
-            transform.position.z
-        );
+        if (isBeingDragged)
+        {
+            //z axis is locked
+            transform.position = new Vector3(
+                GetMouseWorldPos().x + mouseOffset.x,
+                GetMouseWorldPos().y + mouseOffset.y,
+                transform.position.z
+            );
+        }
     }
     private void OnMouseUp()
     {
@@ -84,6 +91,8 @@ public class DiskController : MonoBehaviour
             isOnRod = false;
             transform.position = diskPositionBeforeMouseClick;
         }
+
+        isBeingDragged = false;
     }
     #endregion
 
@@ -91,7 +100,16 @@ public class DiskController : MonoBehaviour
     private bool CanDragDisk()
     {
         //TODO: check if this disk is the topmost disk
-        return true;
+        if (currentRod.GetTopDisk() == this)
+        {
+            print("top disk");
+            return true;
+        }
+        else
+        {
+            print("not top disk");
+            return false;
+        }
     }
 
     private Vector3 GetMouseWorldPos()
