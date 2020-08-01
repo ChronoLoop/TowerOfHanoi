@@ -5,9 +5,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private DiskSpawner diskSpawner;
     [SerializeField]
-    private RodController middlePole;
+    private RodController middleRod;
     [SerializeField]
-    private RodController lastPole;
+    private RodController lastRod;
     private int numberOfMoves;
     private int numberOfDisks;
     private int level;
@@ -37,13 +37,13 @@ public class GameManager : MonoBehaviour
 
     bool checkWinCondition()
     {
-        //if all disks are stack on either the middle or last pole
-        bool middlePoleWinCondition = middlePole.GetDiskCount() == numberOfDisks && !middlePole.AreDisksMoving();
-        bool lastPoleWinCondition = lastPole.GetDiskCount() == numberOfDisks && !lastPole.AreDisksMoving();
-        if (middlePoleWinCondition || lastPoleWinCondition)
+        //check if all disks are not moving and stacked on one rod
+        bool middleRodWinCondition = middleRod.GetDiskCount() == numberOfDisks && !middleRod.AreDisksMoving();
+        bool lastRodWinCondition = lastRod.GetDiskCount() == numberOfDisks && !lastRod.AreDisksMoving();
+        if (middleRodWinCondition || lastRodWinCondition)
         {
-            middlePole.ClearStack();
-            lastPole.ClearStack();
+            middleRod.ClearStack();
+            lastRod.ClearStack();
             return true;
         }
         return false;

@@ -23,7 +23,7 @@ public class RodController : MonoBehaviour
             if (!diskStack.Contains(diskController))
             {
                 diskStack.Push(diskController);
-                print(this.name + " added " + disk.name);
+                //print(this.name + " added " + disk.name);
             }
         }
     }
@@ -45,7 +45,7 @@ public class RodController : MonoBehaviour
         {
             GameObject disk = other.gameObject;
             diskStack.Pop();
-            print(this.name + ": has removed disk");
+            //print(this.name + ": has removed disk");
         }
     }
     #endregion

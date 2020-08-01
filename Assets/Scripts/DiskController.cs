@@ -74,7 +74,7 @@ public class DiskController : MonoBehaviour
     }
     private void OnMouseUp()
     {
-        //if disk is not on pole, reset the disks position to diskPositionBeforeMouseClick
+        //if disk is not on Rod, reset the disks position to diskPositionBeforeMouseClick
         if (isOnRod)
         {
 
