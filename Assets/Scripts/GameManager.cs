@@ -2,9 +2,12 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public DiskSpawner diskSpawner;
-    public RodController middlePole;
-    public RodController lastPole;
+    [SerializeField]
+    private DiskSpawner diskSpawner;
+    [SerializeField]
+    private RodController middlePole;
+    [SerializeField]
+    private RodController lastPole;
     private int numberOfMoves;
     private int numberOfDisks;
     private int level;
@@ -35,8 +38,12 @@ public class GameManager : MonoBehaviour
     bool checkWinCondition()
     {
         //if all disks are stack on either the middle or last pole
-        if (middlePole.getDiskCount() == numberOfDisks || lastPole.getDiskCount() == numberOfDisks)
+        bool middlePoleWinCondition = middlePole.GetDiskCount() == numberOfDisks && !middlePole.AreDisksMoving();
+        bool lastPoleWinCondition = lastPole.GetDiskCount() == numberOfDisks && !lastPole.AreDisksMoving();
+        if (middlePoleWinCondition || lastPoleWinCondition)
         {
+            middlePole.ClearStack();
+            lastPole.ClearStack();
             return true;
         }
         return false;

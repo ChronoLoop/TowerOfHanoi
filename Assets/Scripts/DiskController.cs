@@ -5,19 +5,18 @@ public class DiskController : MonoBehaviour
     public int size;
     public Color color;
     public Rigidbody rb;
-
     //mouse data
     private Vector3 mouseOffset;
     private float mouseZCoord;
     private Vector3 diskPositionBeforeMouseClick;
-    bool isOnPole;
+    bool isOnRod;
     private void Start()
     {
         //freeze z position
         rb.constraints = RigidbodyConstraints.FreezePositionZ;
         //freeze all rotations
         rb.freezeRotation = true;
-        isOnPole = false;
+        isOnRod = false;
     }
 
     private void FixedUpdate()
@@ -31,38 +30,23 @@ public class DiskController : MonoBehaviour
 
         currentVelocity.y = 0f;
         rb.velocity = currentVelocity;
-        if (isOnPole && rb.IsSleeping())
-        {
-            diskPositionBeforeMouseClick = transform.position;
-        }
     }
 
     #region Trigger
     private void OnTriggerEnter(Collider other)
     {
-        if (isPole(other.gameObject))
+        if (isRod(other.gameObject))
         {
-            isOnPole = true;
+            isOnRod = true;
         }
         else
         {
-            isOnPole = false;
-        }
-    }
-    private void OnTriggerStay(Collider other)
-    {
-        if (isPole(other.gameObject))
-        {
-            isOnPole = true;
-        }
-        else
-        {
-            isOnPole = false;
+            isOnRod = false;
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        isOnPole = false;
+        isOnRod = false;
 
     }
     #endregion
@@ -91,13 +75,13 @@ public class DiskController : MonoBehaviour
     private void OnMouseUp()
     {
         //if disk is not on pole, reset the disks position to diskPositionBeforeMouseClick
-        if (isOnPole)
+        if (isOnRod)
         {
 
         }
         else
         {
-            isOnPole = false;
+            isOnRod = false;
             transform.position = diskPositionBeforeMouseClick;
         }
     }
@@ -118,10 +102,10 @@ public class DiskController : MonoBehaviour
         mousePoint.z = mouseZCoord;
         return Camera.main.ScreenToWorldPoint(mousePoint);
     }
-    private bool isPole(GameObject obj)
+    private bool isRod(GameObject obj)
     {
-        //if obj is polecontroller return true else return false
-        return obj.GetComponent<RodController>() != null;
+        //if obj is rod return true else return false
+        return obj.tag == "Rod";
     }
     #endregion
 }

@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class DiskSpawner : MonoBehaviour
 {
-    public GameObject diskPrefab;
+    [SerializeField]
+    private GameObject diskPrefab;
 
 
     //function will be stacking the disks downward in the y position
@@ -44,6 +45,7 @@ public class DiskSpawner : MonoBehaviour
             //set parent of new disk to this spawner object and disk to a random color
             newDisk.transform.parent = transform;
             newDisk.GetComponent<Renderer>().material.color = GetRandomColor();
+            newDisk.GetComponent<DiskController>().size = i;
         }
     }
 

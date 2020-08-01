@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class RodController : MonoBehaviour
 {
-    Stack<DiskController> disks = new Stack<DiskController>();
+    Stack<DiskController> diskStack = new Stack<DiskController>();
+
+    #region Trigger
     private void OnTriggerEnter(Collider other)
     {
         if (IsADisk(other.gameObject))
@@ -16,6 +18,13 @@ public class RodController : MonoBehaviour
                 disk.transform.position.y,
                 disk.transform.position.z
             );
+            DiskController diskController = disk.GetComponent<DiskController>();
+            //add diskcontroller script to dictionary
+            if (!diskStack.Contains(diskController))
+            {
+                diskStack.Push(diskController);
+                print(this.name + " added " + disk.name);
+            }
         }
     }
     private void OnTriggerStay(Collider other)
@@ -30,14 +39,43 @@ public class RodController : MonoBehaviour
             );
         }
     }
+    private void OnTriggerExit(Collider other)
+    {
+        if (IsADisk(other.gameObject))
+        {
+            GameObject disk = other.gameObject;
+            diskStack.Pop();
+            print(this.name + ": has removed disk");
+        }
+    }
+    #endregion
+
     #region helper functions
     private bool IsADisk(GameObject obj)
     {
-        return obj.GetComponent<DiskController>() != null;
+        return obj.tag == "Disk";
     }
-    public int getDiskCount()
+    public bool AreDisksMoving()
     {
-        return disks.Count;
+        bool disksMoving = false;
+        //if a disk is moving return true
+        foreach (DiskController disk in diskStack)
+        {
+            if (disk.rb.velocity != Vector3.zero)
+            {
+                disksMoving = true;
+                break;
+            }
+        }
+        return disksMoving;
+    }
+    public int GetDiskCount()
+    {
+        return diskStack.Count;
+    }
+    public void ClearStack()
+    {
+        diskStack.Clear();
     }
     #endregion
 }
