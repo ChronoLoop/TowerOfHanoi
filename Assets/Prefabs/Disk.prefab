@@ -126,3 +126,4 @@ MonoBehaviour:
   size: 0
   color: {r: 0, g: 0, b: 0, a: 0}
   rb: {fileID: 6739555252642267664}
+  currentRod: {fileID: 0}

@@ -9,6 +9,13 @@ public class DiskSpawner : MonoBehaviour
     //function will be stacking the disks downward in the y position
     public void InitializeDiskStack(int numberOfDisks)
     {
+
+        //move the spawner to a higher y position
+        transform.position = new Vector3(
+            transform.position.x,
+            transform.position.y + (numberOfDisks * diskPrefab.transform.localScale.y * 2),
+            transform.position.z
+        );
         //x and z scale
         float xScaleOffset = 0.0f;
         float zScaleOffset = 0.0f;

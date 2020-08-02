@@ -5,6 +5,7 @@ public class DiskController : MonoBehaviour
     public int size;
     public Color color;
     public Rigidbody rb;
+    //currentRod will be set by RodController
     public RodController currentRod;
     //mouse data
     private Vector3 mouseOffset;
@@ -49,7 +50,16 @@ public class DiskController : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        isOnRod = false;
+        //disk is not on a rod
+        if (currentRod == null)
+        {
+            isOnRod = false;
+        }
+        //check if disk is exiting its current rod
+        else if (currentRod == other.gameObject.GetComponent<RodController>())
+        {
+            isOnRod = false;
+        }
 
     }
     #endregion
@@ -84,12 +94,13 @@ public class DiskController : MonoBehaviour
         //if disk is not on Rod, reset the disks position to diskPositionBeforeMouseClick
         if (isOnRod)
         {
-
+            //Debug.Log("MouseUp: is on rod");
         }
-        else
+        else if (isBeingDragged)
         {
             isOnRod = false;
             transform.position = diskPositionBeforeMouseClick;
+            //Debug.Log("resetting position of disk");
         }
 
         isBeingDragged = false;
@@ -100,14 +111,14 @@ public class DiskController : MonoBehaviour
     private bool CanDragDisk()
     {
         //TODO: check if this disk is the topmost disk
-        if (currentRod.GetTopDisk() == this)
+        if (isOnRod && (currentRod.GetTopDisk().size == this.size))
         {
-            print("top disk");
+            //Debug.Log("top disk");
             return true;
         }
         else
         {
-            print("not top disk");
+            //Debug.Log("not top disk");
             return false;
         }
     }
