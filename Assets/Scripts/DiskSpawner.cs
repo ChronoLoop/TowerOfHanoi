@@ -4,7 +4,12 @@ public class DiskSpawner : MonoBehaviour
 {
     [SerializeField]
     private GameObject diskPrefab;
-
+    [SerializeField]
+    private Vector3 initialPosition;
+    private void Awake()
+    {
+        initialPosition = transform.position;
+    }
 
     //function will be stacking the disks downward in the y position
     public void InitializeDiskStack(int numberOfDisks)
@@ -12,9 +17,9 @@ public class DiskSpawner : MonoBehaviour
 
         //move the spawner to a higher y position
         transform.position = new Vector3(
-            transform.position.x,
-            transform.position.y + (numberOfDisks * diskPrefab.transform.localScale.y * 2),
-            transform.position.z
+            initialPosition.x,
+            initialPosition.y + (numberOfDisks * diskPrefab.transform.localScale.y * 2),
+            initialPosition.z
         );
         //x and z scale
         float xScaleOffset = 0.0f;

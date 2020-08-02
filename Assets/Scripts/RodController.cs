@@ -45,7 +45,10 @@ public class RodController : MonoBehaviour
         {
             GameObject disk = other.gameObject;
             DiskController poppedDisk = diskStack.Pop();
-            poppedDisk.currentRod = null;
+            if (poppedDisk.currentRod == this)
+            {
+                poppedDisk.currentRod = null;
+            }
             //print(this.name + ": has removed disk");
         }
     }

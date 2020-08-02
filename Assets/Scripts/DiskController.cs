@@ -39,6 +39,7 @@ public class DiskController : MonoBehaviour
     #region Trigger
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log(other.gameObject.name);
         if (isRod(other.gameObject))
         {
             isOnRod = true;
@@ -50,6 +51,7 @@ public class DiskController : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
+        Debug.Log(other.gameObject.name);
         //disk is not on a rod
         if (currentRod == null)
         {
