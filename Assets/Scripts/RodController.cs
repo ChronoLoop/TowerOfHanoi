@@ -1,11 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class RodController : MonoBehaviour
 {
-    Stack<DiskController> diskStack = new Stack<DiskController>();
+    private Stack<DiskController> diskStack = new Stack<DiskController>();
 
     #region Trigger
     private void OnTriggerEnter(Collider other)
@@ -63,7 +62,14 @@ public class RodController : MonoBehaviour
         //if a disk is moving return true
         foreach (DiskController disk in diskStack)
         {
-            if (disk.rb.velocity != Vector3.zero)
+            //if velocity is very low, it's basically not moving
+            Vector3 velocity = new Vector3(
+                (float)Math.Round(disk.rb.velocity.x, 0),
+                (float)Math.Round(disk.rb.velocity.y, 0),
+                (float)Math.Round(disk.rb.velocity.z, 0)
+            );
+
+            if (velocity != Vector3.zero)
             {
                 disksMoving = true;
                 break;
