@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class DiskController : MonoBehaviour
 {
-    public int size;
-    public Color color;
     public Rigidbody rb;
+    public Collider diskCollider;
+    public int size { get; set; }
+    public Color color { get; set; }
     //currentRod will be set by RodController
-    public RodController currentRod;
+    public RodController currentRod { get; set; }
     //mouse data
     private Vector3 mouseOffset;
     private float mouseZCoord;
@@ -39,28 +40,26 @@ public class DiskController : MonoBehaviour
     #region Trigger
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.gameObject.name);
         if (isRod(other.gameObject))
         {
+            //Debug.Log(this.name + " triggerenter: isOnRod set to true");
             isOnRod = true;
-        }
-        else
-        {
-            isOnRod = false;
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log(other.gameObject.name);
-        //disk is not on a rod
-        if (currentRod == null)
+        if (isRod(other.gameObject))
         {
-            isOnRod = false;
-        }
-        //check if disk is exiting its current rod
-        else if (currentRod == other.gameObject.GetComponent<RodController>())
-        {
-            isOnRod = false;
+            //disk is not on a rod
+            if (currentRod == null)
+            {
+                isOnRod = false;
+            }
+            //check if disk is exiting its current rod
+            else if (currentRod == other.gameObject.GetComponent<RodController>())
+            {
+                isOnRod = false;
+            }
         }
 
     }
@@ -71,8 +70,10 @@ public class DiskController : MonoBehaviour
     //reference for drag and drop: https://www.youtube.com/watch?v=0yHBDZHLRbQ
     private void OnMouseDown()
     {
+        //Debug.Log("mouse down: " + this.name);
         if (CanDragDisk())
         {
+            diskCollider.isTrigger = true;
             mouseZCoord = Camera.main.WorldToScreenPoint(transform.position).z;
             mouseOffset = transform.position - GetMouseWorldPos();
             diskPositionBeforeMouseClick = transform.position;
@@ -93,18 +94,14 @@ public class DiskController : MonoBehaviour
     }
     private void OnMouseUp()
     {
+        diskCollider.isTrigger = false;
         //if disk is not on Rod, reset the disks position to diskPositionBeforeMouseClick
-        if (isOnRod)
-        {
-            //Debug.Log("MouseUp: is on rod");
-        }
-        else if (isBeingDragged)
+        if (!isOnRod && isBeingDragged)
         {
             isOnRod = false;
             transform.position = diskPositionBeforeMouseClick;
             //Debug.Log("resetting position of disk");
         }
-
         isBeingDragged = false;
     }
     #endregion
@@ -115,12 +112,11 @@ public class DiskController : MonoBehaviour
         //TODO: check if this disk is the topmost disk
         if (isOnRod && (currentRod.GetTopDisk().size == this.size))
         {
-            //Debug.Log("top disk");
             return true;
         }
         else
         {
-            //Debug.Log("not top disk");
+            //Debug.Log("isOnRod: " + isOnRod);
             return false;
         }
     }

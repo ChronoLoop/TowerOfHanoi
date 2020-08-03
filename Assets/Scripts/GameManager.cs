@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     {
         level = 1;
         numberOfMoves = 0;
-        numberOfDisks = 7;
+        numberOfDisks = 3;
         diskSpawner.InitializeDiskStack(numberOfDisks);
     }
     private void Update()
