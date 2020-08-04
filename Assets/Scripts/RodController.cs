@@ -11,45 +11,47 @@ public class RodController : MonoBehaviour
     {
         if (IsADisk(other.gameObject))
         {
-            GameObject disk = other.gameObject;
-            disk.transform.position = new Vector3(
-                transform.position.x,
-                disk.transform.position.y,
-                disk.transform.position.z
-            );
-            DiskController diskController = disk.GetComponent<DiskController>();
-            //add diskcontroller script to dictionary
-            if (!diskStack.Contains(diskController))
-            {
-                diskStack.Push(diskController);
-                diskController.currentRod = this;
-                //print(this.name + " added " + disk.name);
-            }
+            GameObject diskGameObj = other.gameObject;
+            AdjustDiskPositon(diskGameObj);
         }
     }
     private void OnTriggerStay(Collider other)
     {
         if (IsADisk(other.gameObject))
         {
-            GameObject disk = other.gameObject;
-            disk.transform.position = new Vector3(
-                transform.position.x,
-                disk.transform.position.y,
-                disk.transform.position.z
-            );
+            GameObject diskGameObj = other.gameObject;
+            AdjustDiskPositon(diskGameObj);
         }
     }
-    private void OnTriggerExit(Collider other)
+    #endregion
+
+    #region rod stack functions
+    public DiskController GetTopDisk()
     {
-        if (IsADisk(other.gameObject))
+        if (diskStack.Count > 0)
         {
-            GameObject disk = other.gameObject;
-            DiskController poppedDisk = diskStack.Pop();
-            if (poppedDisk.currentRod == this)
-            {
-                poppedDisk.currentRod = null;
-            }
-            //print(this.name + ": has removed disk");
+            return diskStack.Peek();
+        }
+        return null;
+    }
+    public int GetDiskCount()
+    {
+        return diskStack.Count;
+    }
+    public void ClearStack()
+    {
+        diskStack.Clear();
+    }
+    public void AddDiskToRodStack(DiskController disk)
+    {
+        diskStack.Push(disk);
+    }
+    public void RemoveDiskFromRodStack()
+    {
+        DiskController poppedDisk = diskStack.Pop();
+        if (poppedDisk.currentRod == this)
+        {
+            poppedDisk.currentRod = null;
         }
     }
     #endregion
@@ -80,21 +82,42 @@ public class RodController : MonoBehaviour
         }
         return disksMoving;
     }
-    public int GetDiskCount()
+
+    private void AdjustDiskPositon(GameObject diskGameObj)
     {
-        return diskStack.Count;
+        diskGameObj.transform.position = new Vector3(
+            transform.position.x,
+            diskGameObj.transform.position.y,
+            diskGameObj.transform.position.z
+        );
     }
-    public void ClearStack()
+    private float GetBottomYPositionOfRod()
     {
-        diskStack.Clear();
+        return transform.position.y - transform.localScale.y;
     }
-    public DiskController GetTopDisk()
+
+    public float GetDiskStackTopYPosition(float diskYScale, int diskCount)
     {
-        if (diskStack.Count > 0)
+        return (diskYScale * 2 * diskCount) + GetBottomYPositionOfRod();
+    }
+    public bool CanAddDisk(DiskController disk)
+    {
+        if (diskStack.Contains(disk))
         {
-            return diskStack.Peek();
+            return false;
         }
-        return null;
+        else if (GetDiskCount() == 0)
+        {
+            //Debug.Log("diskStack is 0");
+            return true;
+        }
+        else if (disk.size < GetTopDisk().size)
+        {
+            //Debug.Log("disk is smaller");
+            return true;
+        }
+        //Debug.Log("disk is bigger");
+        return false;
     }
     #endregion
 }

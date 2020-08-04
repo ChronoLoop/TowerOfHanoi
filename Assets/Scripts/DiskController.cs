@@ -42,10 +42,17 @@ public class DiskController : MonoBehaviour
     {
         if (isRod(other.gameObject))
         {
-            //Debug.Log(this.name + " triggerenter: isOnRod set to true");
-            isOnRod = true;
+            GameObject rodGameObj = other.gameObject;
+            RodController rodController = rodGameObj.GetComponent<RodController>();
+            if (rodController.CanAddDisk(this))
+            {
+                rodController.AddDiskToRodStack(this);
+                currentRod = rodController;
+                isOnRod = true;
+            }
         }
     }
+
     private void OnTriggerExit(Collider other)
     {
         if (isRod(other.gameObject))
@@ -58,10 +65,11 @@ public class DiskController : MonoBehaviour
             //check if disk is exiting its current rod
             else if (currentRod == other.gameObject.GetComponent<RodController>())
             {
+                currentRod.RemoveDiskFromRodStack();
+                currentRod = null;
                 isOnRod = false;
             }
         }
-
     }
     #endregion
 
@@ -96,11 +104,15 @@ public class DiskController : MonoBehaviour
     {
         diskCollider.isTrigger = false;
         //if disk is not on Rod, reset the disks position to diskPositionBeforeMouseClick
-        if (!isOnRod && isBeingDragged)
+        if ((!isOnRod && isBeingDragged) || !currentRod)
         {
             isOnRod = false;
             transform.position = diskPositionBeforeMouseClick;
             //Debug.Log("resetting position of disk");
+        }
+        else if (isOnRod && isBeingDragged)
+        {
+            //AdjustDiskPositon(this.gameObject);
         }
         isBeingDragged = false;
     }
@@ -134,5 +146,29 @@ public class DiskController : MonoBehaviour
         //if obj is rod return true else return false
         return obj.tag == "Rod";
     }
+
+
+    // private void AdjustDiskPositon(GameObject diskGameObj)
+    // {
+    //     float diskYPosition = diskGameObj.transform.position.y;
+    //     //if disk is placed below the 
+    //     float diskYScale = diskGameObj.transform.localScale.y;
+    //     //subtract 1 because RodWill add
+    //     int diskCount = currentRod.GetDiskCount() - 1;
+    //     float diskStackTopYPosition = currentRod.GetDiskStackTopYPosition(diskYScale, diskCount);
+    //     Debug.Log(diskStackTopYPosition + diskYScale);
+    //     if (diskYPosition < diskStackTopYPosition + diskYScale)
+    //     {
+    //         Debug.Log("diskpostion is lower than stack top position");
+    //         diskYPosition = diskStackTopYPosition;
+    //         Debug.Log("Reposition to " + diskYPosition);
+    //     }
+    //     diskGameObj.transform.position = new Vector3(
+    //         transform.position.x,
+    //         diskYPosition,
+    //         diskGameObj.transform.position.z
+    //     );
+
+    // }
     #endregion
 }
