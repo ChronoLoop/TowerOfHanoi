@@ -104,7 +104,6 @@ public class DiskController : MonoBehaviour
     }
     private void OnMouseUp()
     {
-        diskCollider.isTrigger = false;
         //if disk is not on Rod, reset the disks position to diskPositionBeforeMouseClick
         if ((!isOnRod && isBeingDragged) || !currentRod)
         {
@@ -112,11 +111,15 @@ public class DiskController : MonoBehaviour
             transform.position = diskPositionBeforeMouseClick;
             //Debug.Log("resetting position of disk");
         }
-        else if (isOnRod && isBeingDragged && (currentRod != previousRod))
+        else if (isOnRod && isBeingDragged)
         {
-            currentRod.DiskDropped();
-            //AdjustDiskPositon(this.gameObject);
+            if (currentRod != previousRod)
+            {
+                currentRod.DiskDropped();
+            }
+            AdjustDiskPositon(this.gameObject);
         }
+        diskCollider.isTrigger = false;
         isBeingDragged = false;
     }
     #endregion
@@ -153,22 +156,24 @@ public class DiskController : MonoBehaviour
 
     private void AdjustDiskPositon(GameObject diskGameObj)
     {
-        float diskYPosition = diskGameObj.transform.position.y;
-        //if disk is placed below the 
-        float diskYScale = diskGameObj.transform.localScale.y;
-        //subtract 1 because RodWill add
+        //subtract 1 because Rod will have added this disk when this function is called
         int diskCount = currentRod.GetDiskCount() - 1;
+
+        float draggedDiskYPosition = diskGameObj.transform.position.y;
+        float diskYScale = diskGameObj.transform.localScale.y;
         float diskStackTopYPosition = currentRod.GetDiskStackTopYPosition(diskYScale, diskCount);
-        Debug.Log(diskStackTopYPosition + diskYScale);
-        if (diskYPosition < diskStackTopYPosition + diskYScale)
+        //Debug.Log("diskStackTopPostion: " + diskStackTopYPosition + diskYScale);
+        float draggedDiskBottomYPosition = draggedDiskYPosition - diskYScale;
+
+        if (draggedDiskBottomYPosition < diskStackTopYPosition)
         {
-            Debug.Log("diskpostion is lower than stack top position");
-            diskYPosition = diskStackTopYPosition;
-            Debug.Log("Reposition to " + diskYPosition);
+            //Debug.Log("diskpostion is lower than stack top position");
+            draggedDiskYPosition = diskStackTopYPosition + diskYScale;
+            //Debug.Log("Reposition to " + draggedDiskYPosition);
         }
         diskGameObj.transform.position = new Vector3(
-            transform.position.x,
-            diskYPosition,
+            diskGameObj.transform.position.x,
+            draggedDiskYPosition,
             diskGameObj.transform.position.z
         );
 
