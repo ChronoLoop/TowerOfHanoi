@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,13 +21,15 @@ public class GameManager : MonoBehaviour
         numberOfMoves = 0;
         numberOfDisks = 3;
         diskSpawner.InitializeDiskStack(numberOfDisks);
+        SetUpRodEvents();
     }
     private void Update()
     {
-        if (checkWinCondition())
+        if (CheckWinCondition())
         {
             level++;
             numberOfDisks++;
+            numberOfMoves = 0;
             firstRod.ClearStack();
             middleRod.ClearStack();
             lastRod.ClearStack();
@@ -36,7 +38,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    bool checkWinCondition()
+    private bool CheckWinCondition()
     {
         //check if all disks are not moving and stacked on one rod
         bool middleRodWinCondition = (middleRod.GetDiskCount() == numberOfDisks) && !middleRod.AreDisksMoving();
@@ -50,4 +52,21 @@ public class GameManager : MonoBehaviour
         return false;
 
     }
+    private void SetUpRodEvents()
+    {
+        firstRod.DiskDropSuccessfulEvent += IncrementMove;
+        middleRod.DiskDropSuccessfulEvent += IncrementMove;
+        lastRod.DiskDropSuccessfulEvent += IncrementMove;
+    }
+    private void IncrementMove(object src, EventArgs e)
+    {
+        numberOfMoves++;
+        Debug.Log(numberOfMoves);
+    }
+
+    private int GetMinimalNumberOfMovesToSolve(int diskCount)
+    {
+        return (int)Math.Pow(2, diskCount);
+    }
+
 }

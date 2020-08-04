@@ -6,6 +6,23 @@ public class RodController : MonoBehaviour
 {
     private Stack<DiskController> diskStack = new Stack<DiskController>();
 
+    public delegate void DiskDropEventHandler(object src, EventArgs e);
+    public event DiskDropEventHandler DiskDropSuccessfulEvent;
+
+    #region Disk Drop 
+    protected virtual void OnDiskDrop()
+    {
+        if (DiskDropSuccessfulEvent != null)
+        {
+            DiskDropSuccessfulEvent(this, EventArgs.Empty);
+        }
+    }
+    public void DiskDropped()
+    {
+        OnDiskDrop();
+    }
+    #endregion
+
     #region Trigger
     private void OnTriggerEnter(Collider other)
     {
@@ -45,6 +62,7 @@ public class RodController : MonoBehaviour
     public void AddDiskToRodStack(DiskController disk)
     {
         diskStack.Push(disk);
+
     }
     public void RemoveDiskFromRodStack()
     {

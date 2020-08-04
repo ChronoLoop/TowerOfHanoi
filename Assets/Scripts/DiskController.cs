@@ -8,6 +8,7 @@ public class DiskController : MonoBehaviour
     public Color color { get; set; }
     //currentRod will be set by RodController
     public RodController currentRod { get; set; }
+    private RodController previousRod;
     //mouse data
     private Vector3 mouseOffset;
     private float mouseZCoord;
@@ -86,6 +87,7 @@ public class DiskController : MonoBehaviour
             mouseOffset = transform.position - GetMouseWorldPos();
             diskPositionBeforeMouseClick = transform.position;
             isBeingDragged = true;
+            previousRod = currentRod;
         }
     }
     private void OnMouseDrag()
@@ -110,8 +112,9 @@ public class DiskController : MonoBehaviour
             transform.position = diskPositionBeforeMouseClick;
             //Debug.Log("resetting position of disk");
         }
-        else if (isOnRod && isBeingDragged)
+        else if (isOnRod && isBeingDragged && (currentRod != previousRod))
         {
+            currentRod.DiskDropped();
             //AdjustDiskPositon(this.gameObject);
         }
         isBeingDragged = false;
@@ -148,27 +151,27 @@ public class DiskController : MonoBehaviour
     }
 
 
-    // private void AdjustDiskPositon(GameObject diskGameObj)
-    // {
-    //     float diskYPosition = diskGameObj.transform.position.y;
-    //     //if disk is placed below the 
-    //     float diskYScale = diskGameObj.transform.localScale.y;
-    //     //subtract 1 because RodWill add
-    //     int diskCount = currentRod.GetDiskCount() - 1;
-    //     float diskStackTopYPosition = currentRod.GetDiskStackTopYPosition(diskYScale, diskCount);
-    //     Debug.Log(diskStackTopYPosition + diskYScale);
-    //     if (diskYPosition < diskStackTopYPosition + diskYScale)
-    //     {
-    //         Debug.Log("diskpostion is lower than stack top position");
-    //         diskYPosition = diskStackTopYPosition;
-    //         Debug.Log("Reposition to " + diskYPosition);
-    //     }
-    //     diskGameObj.transform.position = new Vector3(
-    //         transform.position.x,
-    //         diskYPosition,
-    //         diskGameObj.transform.position.z
-    //     );
+    private void AdjustDiskPositon(GameObject diskGameObj)
+    {
+        float diskYPosition = diskGameObj.transform.position.y;
+        //if disk is placed below the 
+        float diskYScale = diskGameObj.transform.localScale.y;
+        //subtract 1 because RodWill add
+        int diskCount = currentRod.GetDiskCount() - 1;
+        float diskStackTopYPosition = currentRod.GetDiskStackTopYPosition(diskYScale, diskCount);
+        Debug.Log(diskStackTopYPosition + diskYScale);
+        if (diskYPosition < diskStackTopYPosition + diskYScale)
+        {
+            Debug.Log("diskpostion is lower than stack top position");
+            diskYPosition = diskStackTopYPosition;
+            Debug.Log("Reposition to " + diskYPosition);
+        }
+        diskGameObj.transform.position = new Vector3(
+            transform.position.x,
+            diskYPosition,
+            diskGameObj.transform.position.z
+        );
 
-    // }
+    }
     #endregion
 }
