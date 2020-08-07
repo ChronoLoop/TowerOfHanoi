@@ -113,6 +113,7 @@ public class DiskController : MonoBehaviour
         }
         else if (isOnRod && isBeingDragged)
         {
+            //if disk is added to a new rod
             if (currentRod != previousRod)
             {
                 currentRod.DiskDropped();

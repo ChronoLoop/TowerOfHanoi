@@ -1,16 +1,15 @@
-using UnityEngine;
 using System;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField]
-    private DiskSpawner diskSpawner;
-    [SerializeField]
-    private RodController firstRod;
-    [SerializeField]
-    private RodController middleRod;
-    [SerializeField]
-    private RodController lastRod;
+    [SerializeField] private DiskSpawner diskSpawner;
+    [SerializeField] private RodController firstRod;
+    [SerializeField] private RodController middleRod;
+    [SerializeField] private RodController lastRod;
+    [SerializeField] private Text movesText;
+    [SerializeField] private Text minMovesText;
     private int numberOfMoves;
     private int numberOfDisks;
     private int level;
@@ -23,6 +22,10 @@ public class GameManager : MonoBehaviour
         diskSpawner.InitializeDiskStack(numberOfDisks);
         SetUpRodEvents();
     }
+    private void Start()
+    {
+        minMovesText.text = GetMinMovesString();
+    }
     private void Update()
     {
         if (CheckWinCondition())
@@ -33,9 +36,11 @@ public class GameManager : MonoBehaviour
             firstRod.ClearStack();
             middleRod.ClearStack();
             lastRod.ClearStack();
+            minMovesText.text = GetMinMovesString();
             diskSpawner.DestroyDisks();
             diskSpawner.InitializeDiskStack(numberOfDisks);
         }
+        movesText.text = GetMovesString();
     }
 
     private bool CheckWinCondition()
@@ -61,12 +66,19 @@ public class GameManager : MonoBehaviour
     private void IncrementMove(object src, EventArgs e)
     {
         numberOfMoves++;
-        Debug.Log(numberOfMoves);
     }
 
     private int GetMinimalNumberOfMovesToSolve(int diskCount)
     {
-        return (int)Math.Pow(2, diskCount);
+        return (int)Math.Pow(2, diskCount) - 1;
     }
 
+    private string GetMinMovesString()
+    {
+        return "Min Moves: " + GetMinimalNumberOfMovesToSolve(numberOfDisks).ToString();
+    }
+    private string GetMovesString()
+    {
+        return "Moves: " + numberOfMoves.ToString();
+    }
 }

@@ -2,10 +2,8 @@ using UnityEngine;
 
 public class DiskSpawner : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject diskPrefab;
-    [SerializeField]
-    private Vector3 initialPosition;
+    [SerializeField] private GameObject diskPrefab;
+    [SerializeField] private Vector3 initialPosition;
     private void Awake()
     {
         initialPosition = transform.position;
