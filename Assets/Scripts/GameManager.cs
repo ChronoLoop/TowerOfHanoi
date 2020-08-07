@@ -8,8 +8,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private RodController firstRod;
     [SerializeField] private RodController middleRod;
     [SerializeField] private RodController lastRod;
+    [SerializeField] private TimeController timeController;
     [SerializeField] private Text movesText;
     [SerializeField] private Text minMovesText;
+
     private int numberOfMoves;
     private int numberOfDisks;
     private int level;
@@ -25,6 +27,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         minMovesText.text = GetMinMovesString();
+        timeController.BeginTimer();
     }
     private void Update()
     {
@@ -39,6 +42,8 @@ public class GameManager : MonoBehaviour
             minMovesText.text = GetMinMovesString();
             diskSpawner.DestroyDisks();
             diskSpawner.InitializeDiskStack(numberOfDisks);
+            //timer
+            timeController.ResetTimer();
         }
         movesText.text = GetMovesString();
     }
