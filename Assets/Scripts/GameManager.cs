@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TimeController timeController;
     [SerializeField] private Text movesText;
     [SerializeField] private Text minMovesText;
+    [SerializeField] private Text LevelText;
 
     private int numberOfMoves;
     private int numberOfDisks;
@@ -29,11 +30,11 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         minMovesText.text = GetMinMovesString();
+        LevelText.text = GetLevelString();
         timeController.BeginTimer();
     }
     private void Update()
     {
-
         if (CheckWinCondition())
         {
             level++;
@@ -77,6 +78,7 @@ public class GameManager : MonoBehaviour
         return (int)Math.Pow(2, diskCount) - 1;
     }
 
+    #region UI Text
     private string GetMinMovesString()
     {
         return "Min Moves: " + GetMinimalNumberOfMovesToSolve(numberOfDisks).ToString();
@@ -85,6 +87,11 @@ public class GameManager : MonoBehaviour
     {
         return "Moves: " + numberOfMoves.ToString();
     }
+    private string GetLevelString()
+    {
+        return "Level " + level.ToString();
+    }
+    #endregion
 
     private void ResetBoard()
     {
@@ -94,6 +101,7 @@ public class GameManager : MonoBehaviour
         middleRod.ClearStack();
         lastRod.ClearStack();
         minMovesText.text = GetMinMovesString();
+        LevelText.text = GetLevelString();
         diskSpawner.DestroyDisks();
         diskSpawner.InitializeDiskStack(numberOfDisks);
         timeController.ResetTimer();
