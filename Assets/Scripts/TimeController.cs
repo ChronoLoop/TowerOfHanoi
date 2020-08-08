@@ -12,7 +12,7 @@ public class TimeController : MonoBehaviour
 
     private float elapsedTime;
 
-    private void Start()
+    private void Awake()
     {
         timeCounterText.text = "Time: 00:00.00";
         timerGoing = false;
@@ -31,15 +31,19 @@ public class TimeController : MonoBehaviour
     {
         elapsedTime = 0f;
     }
+    public string GetTimePlayingString()
+    {
+        return "Time: " + timePlaying.ToString("mm':'ss'.'ff");
+    }
     private IEnumerator UpdateTimer()
     {
         while (timerGoing)
         {
             elapsedTime += Time.deltaTime;
             timePlaying = TimeSpan.FromSeconds(elapsedTime);
-            string timePlayingStr = "Time: " + timePlaying.ToString("mm':'ss'.'ff");
-            timeCounterText.text = timePlayingStr;
+            timeCounterText.text = GetTimePlayingString();
             yield return null;
         }
+        print(timerGoing);
     }
 }

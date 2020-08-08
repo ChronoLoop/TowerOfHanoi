@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
+
         if (CheckWinCondition())
         {
             level++;
@@ -42,7 +43,6 @@ public class GameManager : MonoBehaviour
             minMovesText.text = GetMinMovesString();
             diskSpawner.DestroyDisks();
             diskSpawner.InitializeDiskStack(numberOfDisks);
-            //timer
             timeController.ResetTimer();
         }
         movesText.text = GetMovesString();
