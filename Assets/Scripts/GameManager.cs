@@ -15,12 +15,14 @@ public class GameManager : MonoBehaviour
     private int numberOfMoves;
     private int numberOfDisks;
     private int level;
+    private bool restartLevel;
 
     private void Awake()
     {
         level = 1;
         numberOfMoves = 0;
         numberOfDisks = 3;
+        restartLevel = false;
         diskSpawner.InitializeDiskStack(numberOfDisks);
         SetUpRodEvents();
     }
@@ -36,14 +38,11 @@ public class GameManager : MonoBehaviour
         {
             level++;
             numberOfDisks++;
-            numberOfMoves = 0;
-            firstRod.ClearStack();
-            middleRod.ClearStack();
-            lastRod.ClearStack();
-            minMovesText.text = GetMinMovesString();
-            diskSpawner.DestroyDisks();
-            diskSpawner.InitializeDiskStack(numberOfDisks);
-            timeController.ResetTimer();
+            ResetBoard();
+        }
+        if (restartLevel)
+        {
+            ResetBoard();
         }
         movesText.text = GetMovesString();
     }
@@ -86,4 +85,28 @@ public class GameManager : MonoBehaviour
     {
         return "Moves: " + numberOfMoves.ToString();
     }
+
+    private void ResetBoard()
+    {
+        numberOfMoves = 0;
+        restartLevel = false;
+        firstRod.ClearStack();
+        middleRod.ClearStack();
+        lastRod.ClearStack();
+        minMovesText.text = GetMinMovesString();
+        diskSpawner.DestroyDisks();
+        diskSpawner.InitializeDiskStack(numberOfDisks);
+        timeController.ResetTimer();
+    }
+
+    #region Icon Buttons on click functions
+    public void RestartButtonClick()
+    {
+        restartLevel = true;
+    }
+    public void SettingButtonClick()
+    {
+        Debug.Log("Clicked Setting Button");
+    }
+    #endregion
 }
