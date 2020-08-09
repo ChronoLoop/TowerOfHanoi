@@ -2,13 +2,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class IconButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+public class ButtonIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    private Image buttonImage;
-    private void Awake()
-    {
-        buttonImage = GetComponent<Image>();
-    }
+    [SerializeField] private Image buttonImage;
     public void OnPointerClick(PointerEventData eventData)
     {
         Color tempColor = buttonImage.color;
