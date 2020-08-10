@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text movesText;
     [SerializeField] private Text minMovesText;
     [SerializeField] private Text LevelText;
+    [SerializeField] private GameObject pauseGameObj;
 
     private int numberOfMoves;
     private int numberOfDisks;
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour
         numberOfMoves = 0;
         numberOfDisks = 3;
         restartLevel = false;
+        pauseGameObj.SetActive(false);
         diskSpawner.InitializeDiskStack(numberOfDisks);
         SetUpRodEvents();
     }
@@ -112,9 +114,13 @@ public class GameManager : MonoBehaviour
     {
         restartLevel = true;
     }
-    public void SettingButtonClick()
+    public void PauseButtonClick()
     {
-        Debug.Log("Clicked Setting Button");
+        pauseGameObj.SetActive(true);
+    }
+    public void ExitPauseButtonClick()
+    {
+        pauseGameObj.SetActive(false);
     }
     #endregion
 }

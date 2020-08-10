@@ -5,25 +5,25 @@ using System.Runtime.Serialization.Formatters.Binary;
 //reference: https://www.youtube.com/watch?v=XOjd_qU2Ido&t=118s
 public static class DataManager
 {
-    static string gameSettingPath;
+    static string soundSettingPath;
     static DataManager()
     {
-        gameSettingPath = Application.persistentDataPath + "/gamesetting.data";
+        soundSettingPath = Application.persistentDataPath + "/soundsettings.data";
     }
-    public static void SaveGameSetting(GameSetting gameSetting)
+    public static void SaveSoundSetting(SoundManager soundManager)
     {
         BinaryFormatter binaryFormetter = new BinaryFormatter();
-        FileStream fs = new FileStream(gameSettingPath, FileMode.Create);
+        FileStream fs = new FileStream(soundSettingPath, FileMode.Create);
 
-        GameSettingData data = new GameSettingData(gameSetting);
+        SoundSettingData data = new SoundSettingData(soundManager);
 
         binaryFormetter.Serialize(fs, data);
         fs.Close();
     }
 
-    public static GameSettingData LoadGameSetting()
+    public static SoundSettingData LoadSoundSetting()
     {
-        return LoadData<GameSettingData>(gameSettingPath);
+        return LoadData<SoundSettingData>(soundSettingPath);
     }
 
     #region Helper Functions
