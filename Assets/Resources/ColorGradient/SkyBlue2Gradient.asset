@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 54d21f6ece3b46479f0c328f8c6007e0, type: 3}
-  m_Name: GoldGradient
+  m_Name: SkyBlue2Gradient
   m_EditorClassIdentifier: 
   colorMode: 3
-  topLeft: {r: 1, g: 0.78039217, b: 0.34117648, a: 1}
-  topRight: {r: 1, g: 0.78039217, b: 0.34117648, a: 1}
-  bottomLeft: {r: 1, g: 0.6117647, b: 0.19215687, a: 1}
-  bottomRight: {r: 1, g: 0.6117647, b: 0.19215687, a: 1}
+  topLeft: {r: 0.49411765, g: 0.78431374, b: 0.8901961, a: 1}
+  topRight: {r: 0.49411765, g: 0.78431374, b: 0.8901961, a: 1}
+  bottomLeft: {r: 0.17697577, g: 0.71777576, b: 0.9150943, a: 1}
+  bottomRight: {r: 0.18039216, g: 0.72156864, b: 0.91764706, a: 1}
