@@ -1654,8 +1654,8 @@ MonoBehaviour:
   movesText: {fileID: 395157581}
   minMovesText: {fileID: 1239526282}
   LevelText: {fileID: 2037029980}
-  pauseMenuGameObj: {fileID: 130727367}
-  settingMenuGameObj: {fileID: 1375710311}
+  pauseMenuUI: {fileID: 130727367}
+  settingMenuUI: {fileID: 1375710311}
 --- !u!4 &809385889
 Transform:
   m_ObjectHideFlags: 0

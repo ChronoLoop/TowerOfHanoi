@@ -104,32 +104,35 @@ public class DiskController : MonoBehaviour
     }
     private void OnMouseUp()
     {
-        //if disk is not on Rod, reset the disks position to diskPositionBeforeMouseClick
-        if ((!isOnRod && isBeingDragged) || !currentRod)
+        if (!GameManager.gameIsPaused)
         {
-            isOnRod = false;
-            transform.position = diskPositionBeforeMouseClick;
-            //Debug.Log("resetting position of disk");
-        }
-        else if (isOnRod && isBeingDragged)
-        {
-            //if disk is added to a new rod
-            if (currentRod != previousRod)
+            //if disk is not on Rod, reset the disks position to diskPositionBeforeMouseClick
+            if ((!isOnRod && isBeingDragged) || !currentRod)
             {
-                currentRod.DiskDropped();
+                isOnRod = false;
+                transform.position = diskPositionBeforeMouseClick;
+                //Debug.Log("resetting position of disk");
             }
-            AdjustDiskPositon(this.gameObject);
+            else if (isOnRod && isBeingDragged)
+            {
+                //if disk is added to a new rod
+                if (currentRod != previousRod)
+                {
+                    currentRod.DiskDropped();
+                }
+                AdjustDiskPositon(this.gameObject);
+            }
+            diskCollider.isTrigger = false;
+            isBeingDragged = false;
         }
-        diskCollider.isTrigger = false;
-        isBeingDragged = false;
     }
     #endregion
 
     #region Helper Functions
     private bool CanDragDisk()
     {
-        //TODO: check if this disk is the topmost disk
-        if (isOnRod && (currentRod.GetTopDisk().size == this.size))
+        //TODO: check if this disk is the topmost disk and game is not paused
+        if (isOnRod && (currentRod.GetTopDisk().size == this.size) && !GameManager.gameIsPaused)
         {
             return true;
         }
@@ -177,7 +180,6 @@ public class DiskController : MonoBehaviour
             draggedDiskYPosition,
             diskGameObj.transform.position.z
         );
-
     }
     #endregion
 }

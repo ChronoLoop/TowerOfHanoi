@@ -13,13 +13,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text movesText;
     [SerializeField] private Text minMovesText;
     [SerializeField] private Text LevelText;
-    [SerializeField] private GameObject pauseMenuGameObj;
-    [SerializeField] private GameObject settingMenuGameObj;
+    [SerializeField] private GameObject pauseMenuUI;
+    [SerializeField] private GameObject settingMenuUI;
 
     private int numberOfMoves;
     private int numberOfDisks;
     private int level;
     private bool restartLevel;
+    public static bool gameIsPaused;
 
     private void Awake()
     {
@@ -27,8 +28,9 @@ public class GameManager : MonoBehaviour
         numberOfMoves = 0;
         numberOfDisks = 3;
         restartLevel = false;
-        pauseMenuGameObj.SetActive(false);
-        settingMenuGameObj.SetActive(false);
+        gameIsPaused = false;
+        pauseMenuUI.SetActive(false);
+        settingMenuUI.SetActive(false);
         diskSpawner.InitializeDiskStack(numberOfDisks);
         SetUpRodEvents();
     }
@@ -49,6 +51,17 @@ public class GameManager : MonoBehaviour
         if (restartLevel)
         {
             ResetBoard();
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (gameIsPaused)
+            {
+                ExitPauseButtonClick();
+            }
+            else
+            {
+                PauseButtonClick();
+            }
         }
         movesText.text = GetMovesString();
     }
@@ -119,25 +132,30 @@ public class GameManager : MonoBehaviour
     }
     public void PauseButtonClick()
     {
-        pauseMenuGameObj.SetActive(true);
+        pauseMenuUI.SetActive(true);
+        gameIsPaused = true;
+        Time.timeScale = 0f;
     }
     public void ExitPauseButtonClick()
     {
-        pauseMenuGameObj.SetActive(false);
+        pauseMenuUI.SetActive(false);
+        gameIsPaused = false;
+        Time.timeScale = 1f;
     }
     public void SettingButtonClick()
     {
-        settingMenuGameObj.SetActive(true);
-        pauseMenuGameObj.SetActive(false);
+        settingMenuUI.SetActive(true);
+        pauseMenuUI.SetActive(false);
     }
     public void ExitSettingButtonClick()
     {
-        settingMenuGameObj.SetActive(false);
-        pauseMenuGameObj.SetActive(true);
+        settingMenuUI.SetActive(false);
+        pauseMenuUI.SetActive(true);
     }
     public void QuitButtonClick()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
     #endregion
+
 }
