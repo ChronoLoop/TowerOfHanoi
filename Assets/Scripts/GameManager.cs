@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,7 +13,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text movesText;
     [SerializeField] private Text minMovesText;
     [SerializeField] private Text LevelText;
-    [SerializeField] private GameObject pauseGameObj;
+    [SerializeField] private GameObject pauseMenuGameObj;
+    [SerializeField] private GameObject settingMenuGameObj;
 
     private int numberOfMoves;
     private int numberOfDisks;
@@ -25,7 +27,8 @@ public class GameManager : MonoBehaviour
         numberOfMoves = 0;
         numberOfDisks = 3;
         restartLevel = false;
-        pauseGameObj.SetActive(false);
+        pauseMenuGameObj.SetActive(false);
+        settingMenuGameObj.SetActive(false);
         diskSpawner.InitializeDiskStack(numberOfDisks);
         SetUpRodEvents();
     }
@@ -116,11 +119,25 @@ public class GameManager : MonoBehaviour
     }
     public void PauseButtonClick()
     {
-        pauseGameObj.SetActive(true);
+        pauseMenuGameObj.SetActive(true);
     }
     public void ExitPauseButtonClick()
     {
-        pauseGameObj.SetActive(false);
+        pauseMenuGameObj.SetActive(false);
+    }
+    public void SettingButtonClick()
+    {
+        settingMenuGameObj.SetActive(true);
+        pauseMenuGameObj.SetActive(false);
+    }
+    public void ExitSettingButtonClick()
+    {
+        settingMenuGameObj.SetActive(false);
+        pauseMenuGameObj.SetActive(true);
+    }
+    public void QuitButtonClick()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
     #endregion
 }
