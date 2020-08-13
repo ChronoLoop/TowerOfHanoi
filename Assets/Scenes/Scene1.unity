@@ -1653,7 +1653,9 @@ MonoBehaviour:
   timeController: {fileID: 809385890}
   movesText: {fileID: 395157581}
   minMovesText: {fileID: 1239526282}
-  LevelText: {fileID: 2037029980}
+  levelText: {fileID: 2037029980}
+  bestTimeText: {fileID: 854287743}
+  bestMovesText: {fileID: 1343381831}
   pauseMenuUI: {fileID: 130727367}
   settingMenuUI: {fileID: 1375710311}
 --- !u!4 &809385889
@@ -2769,7 +2771,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Best Moves: 0'
+  m_Text: 'Best Moves: N/A'
 --- !u!222 &1343381832
 CanvasRenderer:
   m_ObjectHideFlags: 0

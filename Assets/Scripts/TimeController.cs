@@ -6,7 +6,7 @@ using UnityEngine.UI;
 //reference for timer: https://www.youtube.com/watch?v=qc7J0iei3BU
 public class TimeController : MonoBehaviour
 {
-    public Text timeCounterText;
+    [SerializeField] private Text timeCounterText;
     private TimeSpan timePlaying;
     private bool timerGoing;
 
@@ -31,9 +31,13 @@ public class TimeController : MonoBehaviour
     {
         elapsedTime = 0f;
     }
-    public string GetTimePlayingString()
+    private string GetTimePlayingString()
     {
         return "Time: " + timePlaying.ToString("mm':'ss'.'ff");
+    }
+    public TimeSpan GetTimePlaying()
+    {
+        return timePlaying;
     }
     private IEnumerator UpdateTimer()
     {
@@ -44,6 +48,5 @@ public class TimeController : MonoBehaviour
             timeCounterText.text = GetTimePlayingString();
             yield return null;
         }
-        print(timerGoing);
     }
 }

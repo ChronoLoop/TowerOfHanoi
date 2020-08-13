@@ -6,10 +6,13 @@ using System.Runtime.Serialization.Formatters.Binary;
 public static class DataManager
 {
     static string soundSettingPath;
+    static string levelDataPath;
     static DataManager()
     {
         soundSettingPath = Application.persistentDataPath + "/soundsettings.data";
+        levelDataPath = Application.persistentDataPath + "/levels.data";
     }
+    #region soundsetting
     public static void SaveSoundSetting(SoundManager soundManager)
     {
         BinaryFormatter binaryFormetter = new BinaryFormatter();
@@ -20,11 +23,28 @@ public static class DataManager
         binaryFormetter.Serialize(fs, data);
         fs.Close();
     }
-
     public static SoundSettingData LoadSoundSetting()
     {
         return LoadData<SoundSettingData>(soundSettingPath);
     }
+    #endregion
+
+    #region leveldata
+    public static void SaveLevelData(GameManager gameManager)
+    {
+        BinaryFormatter binaryFormetter = new BinaryFormatter();
+        FileStream fs = new FileStream(levelDataPath, FileMode.Create);
+
+        LevelData data = new LevelData(gameManager);
+
+        binaryFormetter.Serialize(fs, data);
+        fs.Close();
+    }
+    public static LevelData LoadLevelData()
+    {
+        return LoadData<LevelData>(levelDataPath);
+    }
+    #endregion
 
     #region Helper Functions
     private static T LoadData<T>(string path) where T : class
@@ -45,7 +65,6 @@ public static class DataManager
             return null;
         }
     }
-
     private static void LogSaveFileError(string path)
     {
         Debug.LogError("Save file not found in " + path);
