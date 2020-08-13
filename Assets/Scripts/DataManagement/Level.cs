@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 
 [System.Serializable]
 public class Level
@@ -18,9 +19,9 @@ public class Level
         {
             bestTime = gameManager.bestTime;
         }
-        if (gameManager.bestMoves < bestMoves)
+        if (gameManager.numberOfMoves < bestMoves)
         {
-            bestMoves = gameManager.bestMoves;
+            bestMoves = gameManager.numberOfMoves;
         }
     }
 }
