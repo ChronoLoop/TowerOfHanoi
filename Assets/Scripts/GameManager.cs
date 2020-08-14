@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,13 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private RodController middleRod;
     [SerializeField] private RodController lastRod;
     [SerializeField] private TimeController timeController;
-    [SerializeField] private Text movesText;
-    [SerializeField] private Text minMovesText;
-    [SerializeField] private Text levelText;
-    [SerializeField] private Text bestTimeText;
-    [SerializeField] private Text bestMovesText;
-    [SerializeField] private GameObject pauseMenuUI;
-    [SerializeField] private GameObject settingMenuUI;
+    [SerializeField] private GameTextManager gameTextManager;
     public static bool gameIsPaused;
     public List<Level> levelsList { get; private set; }
     public int numberOfMoves { get; private set; }
@@ -36,13 +28,11 @@ public class GameManager : MonoBehaviour
         bestMoves = -1;
         restartLevel = false;
         gameIsPaused = false;
-        pauseMenuUI.SetActive(false);
-        settingMenuUI.SetActive(false);
         diskSpawner.InitializeDiskStack(numberOfDisks);
         SetUpRodEvents();
         LoadLevelData();
         SetCurrentLevelBestScores();
-        InitializeUIText();
+        gameTextManager.InitializeUIText();
     }
     private void Start()
     {
@@ -61,20 +51,39 @@ public class GameManager : MonoBehaviour
         {
             ResetBoard();
         }
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (gameIsPaused)
-            {
-                ExitPauseButtonClick();
-            }
-            else
-            {
-                PauseButtonClick();
-            }
-        }
-        movesText.text = GetMovesString();
     }
 
+    #region helper functions
+    private void ResetBoard()
+    {
+        numberOfMoves = 0;
+        restartLevel = false;
+        SetCurrentLevelBestScores();
+        gameTextManager.InitializeUIText();
+        diskSpawner.DestroyDisks();
+        diskSpawner.InitializeDiskStack(numberOfDisks);
+        timeController.ResetTimer();
+    }
+    private void ClearRodStacks()
+    {
+        firstRod.ClearStack();
+        middleRod.ClearStack();
+        lastRod.ClearStack();
+    }
+    public int GetMinimalNumberOfMovesToSolve(int diskCount)
+    {
+        return (int)Math.Pow(2, diskCount) - 1;
+    }
+    private void SetUpRodEvents()
+    {
+        firstRod.DiskDropSuccessfulEvent += IncrementMove;
+        middleRod.DiskDropSuccessfulEvent += IncrementMove;
+        lastRod.DiskDropSuccessfulEvent += IncrementMove;
+    }
+    private void IncrementMove(object src, EventArgs e)
+    {
+        numberOfMoves++;
+    }
     private bool CheckWinCondition()
     {
         //check if all disks are not moving and stacked on one rod
@@ -87,111 +96,14 @@ public class GameManager : MonoBehaviour
         }
 
         return false;
-
-    }
-    private void SetUpRodEvents()
-    {
-        firstRod.DiskDropSuccessfulEvent += IncrementMove;
-        middleRod.DiskDropSuccessfulEvent += IncrementMove;
-        lastRod.DiskDropSuccessfulEvent += IncrementMove;
-    }
-    private void IncrementMove(object src, EventArgs e)
-    {
-        numberOfMoves++;
     }
 
-    private int GetMinimalNumberOfMovesToSolve(int diskCount)
-    {
-        return (int)Math.Pow(2, diskCount) - 1;
-    }
-    private void ResetBoard()
-    {
-        numberOfMoves = 0;
-        restartLevel = false;
-        firstRod.ClearStack();
-        middleRod.ClearStack();
-        lastRod.ClearStack();
-        minMovesText.text = GetMinMovesString();
-        SetCurrentLevelBestScores();
-        InitializeUIText();
-        diskSpawner.DestroyDisks();
-        diskSpawner.InitializeDiskStack(numberOfDisks);
-        timeController.ResetTimer();
-    }
-
-    #region UI Text
-    private string GetMinMovesString()
-    {
-        return "Min Moves: " + GetMinimalNumberOfMovesToSolve(numberOfDisks).ToString();
-    }
-    private string GetMovesString()
-    {
-        return "Moves: " + numberOfMoves.ToString();
-    }
-    private string GetLevelString()
-    {
-        return "Level " + level.ToString();
-    }
-    private string GetBestMovesString()
-    {
-        if (bestMoves == -1)
-        {
-            return "Best Moves: N/A";
-        }
-        return "Best Moves: " + bestMoves;
-    }
-    private string GetBestTimeString()
-    {
-        if (bestTime == TimeSpan.Zero)
-        {
-            return "Time: N/A";
-        }
-        return "Time: " + bestTime.ToString("mm':'ss'.'ff");
-    }
-    private void InitializeUIText()
-    {
-        //current level record scores
-        bestTimeText.text = GetBestTimeString();
-        bestMovesText.text = GetBestMovesString();
-        //current level data
-        movesText.text = GetMovesString();
-        minMovesText.text = GetMinMovesString();
-        levelText.text = GetLevelString();
-    }
     #endregion
 
     #region Icon Buttons on click functions
     public void RestartButtonClick()
     {
         restartLevel = true;
-    }
-    public void PauseButtonClick()
-    {
-        pauseMenuUI.SetActive(true);
-        gameIsPaused = true;
-        Time.timeScale = 0f;
-    }
-    public void ExitPauseButtonClick()
-    {
-        pauseMenuUI.SetActive(false);
-        gameIsPaused = false;
-        Time.timeScale = 1f;
-    }
-    public void SettingButtonClick()
-    {
-        settingMenuUI.SetActive(true);
-        pauseMenuUI.SetActive(false);
-    }
-    public void ExitSettingButtonClick()
-    {
-        settingMenuUI.SetActive(false);
-        pauseMenuUI.SetActive(true);
-    }
-    public void QuitButtonClick()
-    {
-        gameIsPaused = false;
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
     #endregion
 
@@ -257,5 +169,6 @@ public class GameManager : MonoBehaviour
         return false;
     }
     #endregion
+
 
 }
