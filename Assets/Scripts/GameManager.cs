@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,7 +15,7 @@ public class GameManager : MonoBehaviour
     public int numberOfMoves { get; private set; }
     public int level { get; private set; }
     public int numberOfDisks { get; private set; }
-    public bool restartLevel { get; private set; }
+    public bool restartLevel { get; set; }
     public bool levelComplete { get; set; }
     public bool goToNextLevel { get; set; }
     public TimeSpan currentLevelTime { get; private set; }
@@ -116,10 +115,7 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Icon Buttons on click functions
-    public void RestartButtonClick()
-    {
-        restartLevel = true;
-    }
+
     #endregion
 
     #region level data management

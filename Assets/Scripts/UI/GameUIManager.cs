@@ -94,6 +94,16 @@ public class GameUIManager : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
+    public void RestartButtonClick()
+    {
+        gameManager.restartLevel = true;
+        //unpause game if restart
+        if (GameManager.gameIsPaused && gameManager.levelComplete)
+        {
+            GamePause();
+            levelCompleteMenuUI.SetActive(false);
+        }
+    }
     public void DisplayLevelCompleteUI()
     {
         GamePause();
