@@ -31,7 +31,7 @@ public class TimeController : MonoBehaviour
     {
         elapsedTime = 0f;
     }
-    private string GetTimePlayingString()
+    public string GetTimePlayingString()
     {
         return "Time: " + timePlaying.ToString("mm':'ss'.'ff");
     }

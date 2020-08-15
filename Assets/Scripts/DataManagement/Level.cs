@@ -10,14 +10,14 @@ public class Level
     public Level(GameManager gameManager)
     {
         level = gameManager.level;
-        bestTime = gameManager.bestTime;
+        bestTime = gameManager.currentLevelTime;
         bestMoves = gameManager.numberOfMoves;
     }
     public void SetBestScores(GameManager gameManager)
     {
-        if (gameManager.bestTime < bestTime)
+        if (gameManager.currentLevelTime < bestTime)
         {
-            bestTime = gameManager.bestTime;
+            bestTime = gameManager.currentLevelTime;
         }
         if (gameManager.numberOfMoves < bestMoves)
         {

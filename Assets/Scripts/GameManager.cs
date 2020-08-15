@@ -10,13 +10,16 @@ public class GameManager : MonoBehaviour
     [SerializeField] private RodController middleRod;
     [SerializeField] private RodController lastRod;
     [SerializeField] private TimeController timeController;
-    [SerializeField] private GameTextManager gameTextManager;
+    [SerializeField] private GameUIManager gameUIManager;
     public static bool gameIsPaused;
     public List<Level> levelsList { get; private set; }
     public int numberOfMoves { get; private set; }
     public int level { get; private set; }
     public int numberOfDisks { get; private set; }
     public bool restartLevel { get; private set; }
+    public bool levelComplete { get; set; }
+    public bool goToNextLevel { get; set; }
+    public TimeSpan currentLevelTime { get; private set; }
     public TimeSpan bestTime { get; private set; }
     public int bestMoves { get; private set; }
 
@@ -28,11 +31,13 @@ public class GameManager : MonoBehaviour
         bestMoves = -1;
         restartLevel = false;
         gameIsPaused = false;
+        goToNextLevel = false;
+        levelComplete = false;
         diskSpawner.InitializeDiskStack(numberOfDisks);
         SetUpRodEvents();
         LoadLevelData();
         SetCurrentLevelBestScores();
-        gameTextManager.InitializeUIText();
+        gameUIManager.InitializeUIText();
     }
     private void Start()
     {
@@ -40,15 +45,21 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        if (CheckWinCondition())
+        if (CheckWinCondition() && !levelComplete)
         {
+            timeController.EndTimer();
             AddCurrentLevel();
-            level++;
-            numberOfDisks++;
-            ResetBoard();
+            levelComplete = true;
+            gameUIManager.DisplayLevelCompleteUI();
         }
         if (restartLevel)
         {
+            ResetBoard();
+        }
+        if (goToNextLevel)
+        {
+            level++;
+            numberOfDisks++;
             ResetBoard();
         }
     }
@@ -58,11 +69,15 @@ public class GameManager : MonoBehaviour
     {
         numberOfMoves = 0;
         restartLevel = false;
+        goToNextLevel = false;
+        levelComplete = false;
+        ClearRodStacks();
         SetCurrentLevelBestScores();
-        gameTextManager.InitializeUIText();
+        gameUIManager.InitializeUIText();
         diskSpawner.DestroyDisks();
         diskSpawner.InitializeDiskStack(numberOfDisks);
         timeController.ResetTimer();
+        timeController.BeginTimer();
     }
     private void ClearRodStacks()
     {
@@ -110,7 +125,7 @@ public class GameManager : MonoBehaviour
     #region level data management
     private void AddCurrentLevel()
     {
-        bestTime = timeController.GetTimePlaying();
+        currentLevelTime = timeController.GetTimePlaying();
         Level currentLevel = new Level(this);
         /*
         check if currentLevel exists in list
