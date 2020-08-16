@@ -178,6 +178,7 @@ MonoBehaviour:
   settingMenuUI: {fileID: 1375710311}
   levelCompleteMenuUI: {fileID: 1845963910}
   gameManager: {fileID: 809385888}
+  sceneController: {fileID: 809385891}
   movesText: {fileID: 395157581}
   minMovesText: {fileID: 1239526282}
   levelText: {fileID: 2037029980}
@@ -2172,6 +2173,7 @@ GameObject:
   - component: {fileID: 809385889}
   - component: {fileID: 809385888}
   - component: {fileID: 809385890}
+  - component: {fileID: 809385891}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2197,6 +2199,7 @@ MonoBehaviour:
   lastRod: {fileID: 1433776774}
   timeController: {fileID: 809385890}
   gameUIManager: {fileID: 38144563}
+  sceneController: {fileID: 809385891}
 --- !u!4 &809385889
 Transform:
   m_ObjectHideFlags: 0
@@ -2224,6 +2227,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeCounterText: {fileID: 680727977}
+--- !u!114 &809385891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 809385887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8051af1ffe9984c4d81b3dfa3731f711, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &850527313
 GameObject:
   m_ObjectHideFlags: 0

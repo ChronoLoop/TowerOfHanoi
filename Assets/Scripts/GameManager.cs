@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private RodController lastRod;
     [SerializeField] private TimeController timeController;
     [SerializeField] private GameUIManager gameUIManager;
+    [SerializeField] private SceneController sceneController;
     public static bool gameIsPaused;
     public List<Level> levelsList { get; private set; }
     public int numberOfMoves { get; private set; }
@@ -44,6 +45,10 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
+        if (numberOfDisks > 10)
+        {
+            EndGame();
+        }
         if (CheckWinCondition() && !levelComplete)
         {
             timeController.EndTimer();
@@ -178,6 +183,11 @@ public class GameManager : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    private void EndGame()
+    {
+        sceneController.LoadCreditsScene();
     }
     #endregion
 

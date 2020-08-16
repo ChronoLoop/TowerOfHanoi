@@ -2634,6 +2634,7 @@ GameObject:
   m_Component:
   - component: {fileID: 685343189}
   - component: {fileID: 685343188}
+  - component: {fileID: 685343190}
   m_Layer: 0
   m_Name: MainMenuManager
   m_TagString: Untagged
@@ -2656,6 +2657,7 @@ MonoBehaviour:
   creditsGameObj: {fileID: 1327544672}
   mainMenuGameObj: {fileID: 623675964}
   settingsGameObj: {fileID: 1397961627}
+  sceneController: {fileID: 685343190}
 --- !u!4 &685343189
 Transform:
   m_ObjectHideFlags: 0
@@ -2670,6 +2672,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &685343190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 685343187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8051af1ffe9984c4d81b3dfa3731f711, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &717313632
 GameObject:
   m_ObjectHideFlags: 0

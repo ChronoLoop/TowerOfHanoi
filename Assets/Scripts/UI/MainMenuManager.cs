@@ -1,11 +1,11 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
     [SerializeField] private GameObject creditsGameObj;
     [SerializeField] private GameObject mainMenuGameObj;
     [SerializeField] private GameObject settingsGameObj;
+    [SerializeField] private SceneController sceneController;
     private void Awake()
     {
         creditsGameObj.SetActive(false);
@@ -34,7 +34,7 @@ public class MainMenuManager : MonoBehaviour
     }
     public void PlayButtonClicked()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        sceneController.LoadGameScene();
     }
 
 }

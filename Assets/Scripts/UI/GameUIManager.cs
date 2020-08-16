@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using TMPro;
 
 public class GameUIManager : MonoBehaviour
@@ -10,6 +9,7 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] private GameObject settingMenuUI;
     [SerializeField] private GameObject levelCompleteMenuUI;
     [SerializeField] private GameManager gameManager;
+    [SerializeField] private SceneController sceneController;
     [SerializeField] private Text movesText;
     [SerializeField] private Text minMovesText;
     [SerializeField] private Text levelText;
@@ -92,7 +92,7 @@ public class GameUIManager : MonoBehaviour
     {
         GameManager.gameIsPaused = false;
         Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        sceneController.LoadMainMenuScene();
     }
     public void RestartButtonClick()
     {
