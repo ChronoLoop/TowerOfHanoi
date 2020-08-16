@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RodController : MonoBehaviour
 {
+    [SerializeField] private SoundManager soundManager;
     private Stack<DiskController> diskStack = new Stack<DiskController>();
 
     public delegate void DiskDropEventHandler(object src, EventArgs e);
@@ -23,6 +24,11 @@ public class RodController : MonoBehaviour
     }
     #endregion
 
+    private void Update()
+    {
+        CheckToPlayDiskSound();
+    }
+
     #region Trigger
     private void OnTriggerEnter(Collider other)
     {
@@ -39,6 +45,7 @@ public class RodController : MonoBehaviour
             GameObject diskGameObj = other.gameObject;
             AdjustDiskPositon(diskGameObj);
         }
+
     }
     #endregion
 
@@ -85,14 +92,7 @@ public class RodController : MonoBehaviour
         //if a disk is moving return true
         foreach (DiskController disk in diskStack)
         {
-            //if velocity is very low, it's basically not moving
-            Vector3 velocity = new Vector3(
-                (float)Math.Round(disk.rb.velocity.x, 0),
-                (float)Math.Round(disk.rb.velocity.y, 0),
-                (float)Math.Round(disk.rb.velocity.z, 0)
-            );
-
-            if (velocity != Vector3.zero)
+            if (disk.isDiskMoving())
             {
                 disksMoving = true;
                 break;
@@ -136,6 +136,18 @@ public class RodController : MonoBehaviour
         }
         //Debug.Log("disk is bigger");
         return false;
+    }
+
+    private void CheckToPlayDiskSound()
+    {
+        foreach (DiskController disk in diskStack)
+        {
+            if (!disk.isDiskMoving() && disk.shouldPlayDropSound)
+            {
+                soundManager.PlayDiskDropSoundEffect();
+                disk.shouldPlayDropSound = false;
+            }
+        }
     }
     #endregion
 }

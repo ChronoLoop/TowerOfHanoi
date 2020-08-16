@@ -15,4 +15,8 @@ public class OpenLink : MonoBehaviour
     {
         Application.OpenURL("https://www.flaticon.com");
     }
+    public void OpenZapsplatLink()
+    {
+        Application.OpenURL("https://www.zapsplat.com");
+    }
 }

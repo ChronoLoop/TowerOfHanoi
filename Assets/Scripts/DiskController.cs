@@ -1,13 +1,16 @@
+using System;
 using UnityEngine;
 
 public class DiskController : MonoBehaviour
 {
-    public Rigidbody rb;
-    public Collider diskCollider;
+    [SerializeField] private Collider diskCollider;
+    [SerializeField] private Rigidbody rb;
+    [SerializeField] private SoundManager soundManager;
     public int size { get; set; }
     public Color color { get; set; }
     //currentRod will be set by RodController
     public RodController currentRod { get; set; }
+    public bool shouldPlayDropSound { get; set; }
     private RodController previousRod;
     //mouse data
     private Vector3 mouseOffset;
@@ -15,6 +18,7 @@ public class DiskController : MonoBehaviour
     private Vector3 diskPositionBeforeMouseClick;
     private bool isOnRod;
     private bool isBeingDragged;
+
     private void Start()
     {
         //freeze z position
@@ -23,6 +27,7 @@ public class DiskController : MonoBehaviour
         rb.freezeRotation = true;
         isOnRod = false;
         isBeingDragged = false;
+        shouldPlayDropSound = true;
     }
 
     private void FixedUpdate()
@@ -100,6 +105,7 @@ public class DiskController : MonoBehaviour
                 GetMouseWorldPos().y + mouseOffset.y,
                 transform.position.z
             );
+            shouldPlayDropSound = false;
         }
     }
     private void OnMouseUp()
@@ -111,6 +117,7 @@ public class DiskController : MonoBehaviour
             {
                 isOnRod = false;
                 transform.position = diskPositionBeforeMouseClick;
+                shouldPlayDropSound = false;
                 //Debug.Log("resetting position of disk");
             }
             else if (isOnRod && isBeingDragged)
@@ -119,6 +126,7 @@ public class DiskController : MonoBehaviour
                 if (currentRod != previousRod)
                 {
                     currentRod.DiskDropped();
+                    shouldPlayDropSound = true;
                 }
                 AdjustDiskPositon(this.gameObject);
             }
@@ -155,6 +163,21 @@ public class DiskController : MonoBehaviour
     {
         //if obj is rod return true else return false
         return obj.tag == "Rod";
+    }
+
+    public bool isDiskMoving()
+    {
+        //if velocity is very low, assume it's not moving
+        Vector3 velocity = new Vector3(
+            (float)Math.Round(rb.velocity.x, 0),
+            (float)Math.Round(rb.velocity.y, 0),
+            (float)Math.Round(rb.velocity.z, 0)
+        );
+        if (velocity != Vector3.zero)
+        {
+            return true;
+        }
+        return false;
     }
 
 
