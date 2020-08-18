@@ -2,11 +2,12 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 //reference for timer: https://www.youtube.com/watch?v=qc7J0iei3BU
 public class TimeController : MonoBehaviour
 {
-    [SerializeField] private Text timeCounterText;
+    [SerializeField] private TextMeshProUGUI timeCounterText;
     private TimeSpan timePlaying;
     private bool timerGoing;
 

@@ -6,6 +6,7 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private GameObject mainMenuGameObj;
     [SerializeField] private GameObject settingsGameObj;
     [SerializeField] private SceneController sceneController;
+    [SerializeField] private SoundManager soundManager;
     private void Awake()
     {
         creditsGameObj.SetActive(false);
@@ -31,6 +32,7 @@ public class MainMenuManager : MonoBehaviour
     {
         settingsGameObj.SetActive(false);
         mainMenuGameObj.SetActive(true);
+        soundManager.SaveSoundSetting();
     }
     public void PlayButtonClicked()
     {

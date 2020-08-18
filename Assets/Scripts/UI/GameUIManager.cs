@@ -9,15 +9,16 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] private GameObject settingMenuUI;
     [SerializeField] private GameObject levelCompleteMenuUI;
     [SerializeField] private GameManager gameManager;
+    [SerializeField] private SoundManager soundManager;
     [SerializeField] private SceneController sceneController;
-    [SerializeField] private Text movesText;
-    [SerializeField] private Text minMovesText;
-    [SerializeField] private Text levelText;
-    [SerializeField] private Text bestTimeText;
-    [SerializeField] private Text bestMovesText;
+    [SerializeField] private TextMeshProUGUI movesText;
+    [SerializeField] private TextMeshProUGUI minMovesText;
+    [SerializeField] private TextMeshProUGUI levelText;
+    [SerializeField] private TextMeshProUGUI bestTimeText;
+    [SerializeField] private TextMeshProUGUI bestMovesText;
     [SerializeField] private TextMeshProUGUI levelCompleteLevelText;
-    [SerializeField] private Text levelCompleteTimeText;
-    [SerializeField] private Text levelCompleteMovesText;
+    [SerializeField] private TextMeshProUGUI levelCompleteTimeText;
+    [SerializeField] private TextMeshProUGUI levelCompleteMovesText;
 
     private void Awake()
     {
@@ -87,6 +88,7 @@ public class GameUIManager : MonoBehaviour
     {
         settingMenuUI.SetActive(false);
         pauseMenuUI.SetActive(true);
+        soundManager.SaveSoundSetting();
     }
     public void QuitGameButtonClick()
     {

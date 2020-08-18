@@ -23,13 +23,11 @@ public class SoundManager : MonoBehaviour
     {
         gameVolume = gameVolSlider.value;
         SetGameVolume();
-        SaveSoundSetting();
     }
     public void UpdateMusicVolume()
     {
         musicVolume = musicVolSlider.value;
         SetMusicVolume();
-        SaveSoundSetting();
     }
     private void SetMusicVolume()
     {
@@ -40,7 +38,7 @@ public class SoundManager : MonoBehaviour
         diskDropSoundEffect.volume = gameVolume;
     }
 
-    private void SaveSoundSetting()
+    public void SaveSoundSetting()
     {
         DataManager.SaveSoundSetting(this);
     }
@@ -61,5 +59,9 @@ public class SoundManager : MonoBehaviour
     public void PlayDiskDropSoundEffect()
     {
         diskDropSoundEffect.Play();
+    }
+    private void OnApplicationQuit()
+    {
+        DataManager.SaveSoundSetting(this);
     }
 }
