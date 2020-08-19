@@ -32,6 +32,10 @@ public class GameUIManager : MonoBehaviour
         {
             PauseButtonClick();
         }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Screen.fullScreen = !Screen.fullScreen;
+        }
         movesText.text = GetMovesString();
     }
 
