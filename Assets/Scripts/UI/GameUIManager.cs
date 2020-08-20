@@ -153,7 +153,7 @@ public class GameUIManager : MonoBehaviour
         {
             return "Time: N/A";
         }
-        return "Time: " + gameManager.bestTime.ToString("mm':'ss'.'ff");
+        return "Best Time: " + gameManager.bestTime.ToString("mm':'ss'.'ff");
     }
     private string GetCurrentLevelTimeString()
     {

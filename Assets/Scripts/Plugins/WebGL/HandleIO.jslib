@@ -1,4 +1,4 @@
-//https://amalgamatelabs.com/Blog/4/data_persistence
+//reference: https://amalgamatelabs.com/Blog/4/data_persistence
 var HandleIO = {
     SyncFiles : function()
     {

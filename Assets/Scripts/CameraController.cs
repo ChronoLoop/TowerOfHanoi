@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public Vector3 ZoomFactor;
+    private Vector3 ZoomFactor;
     private Vector3 CameraPosition;
     private Vector2 screenResolution;
-    public float targetResolutionRatio;
+    private float targetResolutionRatio;
     private void Awake()
     {
         screenResolution = new Vector2(Screen.width, Screen.height);

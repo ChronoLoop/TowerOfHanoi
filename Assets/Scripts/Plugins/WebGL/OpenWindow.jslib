@@ -1,4 +1,4 @@
-//https://www.youtube.com/watch?v=qqOqLNqAdDo
+//reference: https://www.youtube.com/watch?v=qqOqLNqAdDo
 var OpenWindowPlugin = {  
     openWindow: function(link)
     {
