@@ -4,7 +4,7 @@ using System;
 public class Level
 {
     public int level { get; private set; }
-    public TimeSpan bestTime { get; private set; }
+    public float bestTime { get; private set; }
     public int bestMoves { get; private set; }
     public Level(GameManager gameManager)
     {

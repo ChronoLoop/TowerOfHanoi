@@ -19,9 +19,10 @@ public class GameManager : MonoBehaviour
     public bool restartLevel { get; set; }
     public bool levelComplete { get; set; }
     public bool goToNextLevel { get; set; }
-    public TimeSpan currentLevelTime { get; private set; }
-    public TimeSpan bestTime { get; private set; }
+    public float currentLevelTime { get; private set; }
+    public float bestTime { get; private set; }
     public int bestMoves { get; private set; }
+    public static bool gameHasStarted;
 
     private void Awake()
     {
@@ -33,18 +34,23 @@ public class GameManager : MonoBehaviour
         gameIsPaused = false;
         goToNextLevel = false;
         levelComplete = false;
+        gameHasStarted = false;
         diskSpawner.InitializeDiskStack(numberOfDisks);
         SetUpRodEvents();
         LoadLevelData();
         SetCurrentLevelBestScores();
         gameUIManager.InitializeUIText();
     }
-    private void Start()
-    {
-        timeController.BeginTimer();
-    }
     private void Update()
     {
+        if (firstRodHasAllDisks())
+        {
+            if (!gameHasStarted)
+            {
+                timeController.BeginTimer();
+            }
+            gameHasStarted = true;
+        }
         if (numberOfDisks > 10)
         {
             EndGame();
@@ -58,6 +64,7 @@ public class GameManager : MonoBehaviour
         }
         if (restartLevel)
         {
+            timeController.EndTimer();
             ResetBoard();
         }
         if (goToNextLevel)
@@ -71,17 +78,17 @@ public class GameManager : MonoBehaviour
     #region helper functions
     private void ResetBoard()
     {
+        timeController.ResetTimer();
         numberOfMoves = 0;
         restartLevel = false;
         goToNextLevel = false;
         levelComplete = false;
+        gameHasStarted = false;
         ClearRodStacks();
         SetCurrentLevelBestScores();
         gameUIManager.InitializeUIText();
         diskSpawner.DestroyDisks();
         diskSpawner.InitializeDiskStack(numberOfDisks);
-        timeController.ResetTimer();
-        timeController.BeginTimer();
     }
     private void ClearRodStacks()
     {
@@ -171,7 +178,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            bestTime = TimeSpan.Zero;
+            bestTime = 0f;
             bestMoves = -1;
         }
     }
@@ -188,6 +195,11 @@ public class GameManager : MonoBehaviour
     private void EndGame()
     {
         sceneController.LoadCreditsScene();
+    }
+
+    private bool firstRodHasAllDisks()
+    {
+        return firstRod.GetDiskCount() == numberOfDisks ? true : false;
     }
     #endregion
 

@@ -140,7 +140,7 @@ public class DiskController : MonoBehaviour
     private bool CanDragDisk()
     {
         //TODO: check if this disk is the topmost disk and game is not paused
-        if (isOnRod && (currentRod.GetTopDisk().size == this.size) && !GameManager.gameIsPaused)
+        if (isOnRod && (currentRod.GetTopDisk().size == this.size) && !GameManager.gameIsPaused && GameManager.gameHasStarted)
         {
             return true;
         }

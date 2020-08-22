@@ -9,6 +9,7 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] private GameObject settingMenuUI;
     [SerializeField] private GameObject levelCompleteMenuUI;
     [SerializeField] private GameManager gameManager;
+    [SerializeField] private TimeController gameManagerTimeController;
     [SerializeField] private SoundManager soundManager;
     [SerializeField] private SceneController sceneController;
     [SerializeField] private TextMeshProUGUI movesText;
@@ -19,6 +20,7 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI levelCompleteLevelText;
     [SerializeField] private TextMeshProUGUI levelCompleteTimeText;
     [SerializeField] private TextMeshProUGUI levelCompleteMovesText;
+    [SerializeField] private TextMeshProUGUI timeCounterText;
 
     private void Awake()
     {
@@ -37,6 +39,7 @@ public class GameUIManager : MonoBehaviour
             Screen.fullScreen = !Screen.fullScreen;
         }
         movesText.text = GetMovesString();
+        timeCounterText.text = GetTimePlayingString();
     }
 
     #region Helper Functions
@@ -149,15 +152,22 @@ public class GameUIManager : MonoBehaviour
     }
     private string GetBestTimeString()
     {
-        if (gameManager.bestTime == TimeSpan.Zero)
+        if (gameManager.bestTime == 0f)
         {
-            return "Time: N/A";
+            return "Best Time: N/A";
         }
-        return "Best Time: " + gameManager.bestTime.ToString("mm':'ss'.'ff");
+        TimeSpan time = TimeSpan.FromSeconds(gameManager.bestTime);
+        return "Best Time: " + time.ToString("mm':'ss'.'ff");
     }
     private string GetCurrentLevelTimeString()
     {
-        return "Time: " + gameManager.currentLevelTime.ToString("mm':'ss'.'ff");
+        TimeSpan time = TimeSpan.FromSeconds(gameManager.currentLevelTime);
+        return "Time: " + time.ToString("mm':'ss'.'ff");
+    }
+    public string GetTimePlayingString()
+    {
+        TimeSpan timePlaying = TimeSpan.FromSeconds(gameManagerTimeController.GetTimePlaying());
+        return "Time: " + timePlaying.ToString("mm':'ss'.'ff");
     }
     #endregion
 }

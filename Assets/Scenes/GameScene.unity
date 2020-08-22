@@ -178,6 +178,7 @@ MonoBehaviour:
   settingMenuUI: {fileID: 1375710311}
   levelCompleteMenuUI: {fileID: 1845963910}
   gameManager: {fileID: 809385888}
+  gameManagerTimeController: {fileID: 809385890}
   soundManager: {fileID: 572912866}
   sceneController: {fileID: 809385891}
   movesText: {fileID: 680796020}
@@ -188,6 +189,7 @@ MonoBehaviour:
   levelCompleteLevelText: {fileID: 489203483}
   levelCompleteTimeText: {fileID: 351790812}
   levelCompleteMovesText: {fileID: 667145868}
+  timeCounterText: {fileID: 721958658}
 --- !u!1 &53522008
 GameObject:
   m_ObjectHideFlags: 0
@@ -2608,7 +2610,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27491e8912feaa74599ab5ef66e5b678, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeCounterText: {fileID: 721958658}
 --- !u!114 &809385891
 MonoBehaviour:
   m_ObjectHideFlags: 0
