@@ -1,9 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    //import exteral method from plugin/webgl/HandleWin.jslib
+    [DllImport("__Internal")]
+    private static extern void SendScores(int level, int moves, float time);
     [SerializeField] private DiskSpawner diskSpawner;
     [SerializeField] private RodController firstRod;
     [SerializeField] private RodController middleRod;
@@ -59,6 +63,7 @@ public class GameManager : MonoBehaviour
         {
             timeController.EndTimer();
             AddCurrentLevel();
+            WebGLSendScores(level, numberOfMoves, currentLevelTime);
             levelComplete = true;
             gameUIManager.DisplayLevelCompleteUI();
         }
@@ -123,7 +128,13 @@ public class GameManager : MonoBehaviour
 
         return false;
     }
-
+    private static void WebGLSendScores(int level, int moves, float time)
+    {
+        if (Application.platform == RuntimePlatform.WebGLPlayer)
+        {
+            SendScores(level, moves, time);
+        }
+    }
     #endregion
 
     #region Icon Buttons on click functions
