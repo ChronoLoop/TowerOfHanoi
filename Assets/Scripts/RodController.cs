@@ -126,15 +126,15 @@ public class RodController : MonoBehaviour
         }
         else if (GetDiskCount() == 0)
         {
-            //Debug.Log("diskStack is 0");
+            //disk stack is 0
             return true;
         }
         else if (disk.size < GetTopDisk().size)
         {
-            //Debug.Log("disk is smaller");
+            //disk is smaller
             return true;
         }
-        //Debug.Log("disk is bigger");
+        //disk is bigger
         return false;
     }
 
