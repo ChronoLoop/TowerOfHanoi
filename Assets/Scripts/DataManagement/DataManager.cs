@@ -3,7 +3,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 
-//reference: https://www.youtube.com/watch?v=XOjd_qU2Ido&t=118s
+//reference: https://www.youtube.com/watch?v=XOjd_qU2Ido
 public static class DataManager
 {
     //import exteral method from plugin/webgl/HandlIO.jslib
