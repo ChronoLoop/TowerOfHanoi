@@ -5,7 +5,6 @@ public class DiskController : MonoBehaviour
 {
     [SerializeField] private Collider diskCollider;
     [SerializeField] private Rigidbody rb;
-    [SerializeField] private SoundManager soundManager;
     public int size { get; set; }
     public Color color { get; set; }
     //currentRod will be set by RodController

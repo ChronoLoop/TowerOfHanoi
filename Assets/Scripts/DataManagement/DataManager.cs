@@ -48,7 +48,7 @@ public static class DataManager
             BinaryFormatter binaryFormetter = new BinaryFormatter();
             FileStream fs = new FileStream(levelDataPath, FileMode.Create);
 
-            LevelData data = new LevelData(gameManager);
+            LevelData data = new LevelData(gameManager.levelsList);
 
             binaryFormetter.Serialize(fs, data);
             fs.Close();

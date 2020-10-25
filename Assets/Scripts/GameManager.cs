@@ -30,20 +30,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        level = 1;
-        numberOfMoves = 0;
-        numberOfDisks = 3;
-        bestMoves = -1;
-        restartLevel = false;
-        gameIsPaused = false;
-        goToNextLevel = false;
-        levelComplete = false;
-        gameHasStarted = false;
-        diskSpawner.InitializeDiskStack(numberOfDisks);
-        SetUpRodEvents();
-        LoadLevelData();
-        SetCurrentLevelBestScores();
-        gameUIManager.InitializeUIText();
+        InitializeBoard();
     }
     private void Update()
     {
@@ -51,21 +38,17 @@ public class GameManager : MonoBehaviour
         {
             if (!gameHasStarted)
             {
-                timeController.BeginTimer();
+                BeginLevel();
             }
             gameHasStarted = true;
         }
         if (numberOfDisks > 10)
         {
-            EndGame();
+            ExitGame();
         }
         if (CheckWinCondition() && !levelComplete)
         {
-            timeController.EndTimer();
-            AddCurrentLevel();
-            WebGLSendScores(level, numberOfMoves, currentLevelTime);
-            levelComplete = true;
-            gameUIManager.DisplayLevelCompleteUI();
+            EndLevel();
         }
         if (restartLevel)
         {
@@ -81,6 +64,23 @@ public class GameManager : MonoBehaviour
     }
 
     #region helper functions
+    private void InitializeBoard()
+    {
+        level = 1;
+        numberOfMoves = 0;
+        numberOfDisks = 3;
+        bestMoves = -1;
+        restartLevel = false;
+        gameIsPaused = false;
+        goToNextLevel = false;
+        levelComplete = false;
+        gameHasStarted = false;
+        diskSpawner.InitializeDiskStack(numberOfDisks);
+        SetUpRodEvents();
+        LoadLevelData();
+        SetCurrentLevelBestScores();
+        gameUIManager.InitializeUIText();
+    }
     private void ResetBoard()
     {
         timeController.ResetTimer();
@@ -202,8 +202,20 @@ public class GameManager : MonoBehaviour
         }
         return false;
     }
+    private void BeginLevel()
+    {
+        timeController.BeginTimer();
+    }
+    private void EndLevel()
+    {
+        timeController.EndTimer();
+        AddCurrentLevel();
+        WebGLSendScores(level, numberOfMoves, currentLevelTime);
+        levelComplete = true;
+        gameUIManager.DisplayLevelCompleteUI();
+    }
 
-    private void EndGame()
+    private void ExitGame()
     {
         sceneController.LoadCreditsScene();
     }
