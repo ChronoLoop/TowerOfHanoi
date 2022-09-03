@@ -8,7 +8,7 @@ Tower of Hanoi is a mathematical game or puzzle. It consists of three rods and a
 
 The game was developed using Unity3D and C# language. The target platform was the web browser.
 
-The game is currently being hosted on <a>https://tower-of-hanoi-kevin.herokuapp.com</a>
+The game is currently being hosted on <a>https://tower-of-hanoi.up.railway.app/</a>
 
 
 
